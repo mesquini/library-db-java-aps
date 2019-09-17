@@ -3,6 +3,7 @@ package View;
 import java.util.ArrayList;
 
 import DTO.Authors;
+import DTO.BooksAuthors;
 import UTIL.*;
 
 public class Main {
@@ -10,14 +11,17 @@ public class Main {
 	public static void main(String[] args) {
 		Commands c = new Commands();
 		
-		//c.addAuthor("teste", "mesquini");
-		Authors author = c.searchAuthor("teste");
+		/*c.addAuthor("teste", "mesquini");
+		c.addPublisher("editora", "url");
+		c.addBook("aa" ,1, "java", 8.20);*/
+		//c.addBookAuthors(2, "aa", 1);
 		
-		System.out.println(author.name);
 		
-		c.deleteAuthor(1);
+		ArrayList<BooksAuthors> ok = c.searchBooksAuthors("teste");
 		
-		c.updateAuthor(1, "qqq", "isso");
+		for(BooksAuthors ba : ok) {
+			System.out.println(ba.title+ " " + ba.url +" "+ ba.price);
+		}
 		
 		ArrayList<Authors> as = c.getAllAuthors();
 		

@@ -1,6 +1,6 @@
 package DTO;
 
-public class BooksAuthors {
+public class BooksAuthors extends Books{
 	
 	public String isbn;
 	public int author_id;

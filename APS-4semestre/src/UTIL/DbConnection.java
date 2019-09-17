@@ -30,9 +30,10 @@ public class DbConnection {
 
 			final String USER = "root";
 			final String PASS = "root";
-			final String DATABASE = "/biblioteca";
+			final String DATABASE = "/library";
 			final String serverName = "localhost";
-			final String URL = "jdbc:mysql://" + serverName + DATABASE;
+			final String complements = "?autoReconnect=true&useSSL=false";
+			final String URL = "jdbc:mysql://" + serverName + DATABASE + complements;
 
 			connection = DriverManager.getConnection(URL, USER, PASS);
 

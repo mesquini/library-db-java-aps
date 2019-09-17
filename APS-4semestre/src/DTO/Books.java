@@ -1,6 +1,6 @@
 package DTO;
 
-public class Books {
+public class Books extends Publishers{
 	
 	public String isbn;
 	public String title;
