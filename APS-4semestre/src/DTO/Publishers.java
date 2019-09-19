@@ -1,6 +1,6 @@
 package DTO;
 
-public class Publishers {
+public class Publishers extends Authors{
 	
 	public int publisher_id;
 	public String name;

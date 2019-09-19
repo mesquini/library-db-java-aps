@@ -17,19 +17,17 @@ public class Main {
 		//c.addBookAuthors(2, "aa", 1);
 		
 		
-		ArrayList<BooksAuthors> ok = c.searchBooksAuthors("teste");
+		ArrayList<BooksAuthors> ok = c.searchBooksAuthors("ge");
 		
+		System.out.println(ok.size());
 		for(BooksAuthors ba : ok) {
-			System.out.println(ba.title+ " " + ba.url +" "+ ba.price);
+
+			
+
+			System.out.println("TITLE: "+ba.title+ " |AUTHORS: " + ba.name +" |PRICE: "+ ba.price);
 		}
 		
-		ArrayList<Authors> as = c.getAllAuthors();
 		
-		System.out.println(as.size());
-		
-		for(Authors a : as) {
-			System.out.println("ID:"+ a.author_id + " Nome: " + a.name + " Sobrenome: " + a.fname);
-		}
 
 	}
 
