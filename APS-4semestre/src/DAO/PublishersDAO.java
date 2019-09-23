@@ -1,4 +1,4 @@
-package Controller;
+package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import Model.Publishers;
 import UTIL.DbConnection;
 
-public class PublishersController extends DbConnection{
+public class PublishersDAO extends DbConnection{
 	public ArrayList<Publishers> getAllPublishers() {
 
 		ArrayList<Publishers> lstPublisher = new ArrayList<Publishers>();

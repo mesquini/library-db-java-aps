@@ -1,4 +1,4 @@
-package Controller;
+package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import Model.Books;
 import UTIL.DbConnection;
 
-public class BooksController extends DbConnection {
+public class BooksDAO extends DbConnection {
 	public ArrayList<Books> getAllBooks() {
 
 		ArrayList<Books> lstBooks = new ArrayList<Books>();

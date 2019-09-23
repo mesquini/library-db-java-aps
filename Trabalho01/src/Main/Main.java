@@ -1,6 +1,5 @@
 package Main;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -10,20 +9,18 @@ import javax.swing.table.DefaultTableModel;
 
 import ConnectionDB.Commands;
 import DTO.BooksAuthors;
-import jdk.nashorn.internal.runtime.regexp.joni.Warnings;
 
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
+import java.awt.Font;
+import java.awt.Toolkit;
 
 public class Main extends JFrame {
 
@@ -54,7 +51,10 @@ public class Main extends JFrame {
 	 * Create the frame.
 	 */
 	public Main() {
+		setLocationRelativeTo(null);
+		setResizable(false);
 		setTitle("Biblioteca Amazonas");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/Img/books.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 628, 332);
 		contentPane = new JPanel();
@@ -63,7 +63,8 @@ public class Main extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblTitle = new JLabel("Entre com o nome do livro: ");
-		lblTitle.setBounds(10, 11, 158, 14);
+		lblTitle.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblTitle.setBounds(20, 11, 158, 14);
 		contentPane.add(lblTitle);
 		
 		txtTitle = new JTextField();
@@ -71,8 +72,9 @@ public class Main extends JFrame {
 		contentPane.add(txtTitle);
 		txtTitle.setColumns(10);
 		
-		JButton btnNewButton = new JButton("");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnSearch = new JButton("");
+		btnSearch.setIcon(new ImageIcon(Main.class.getResource("/Img/search.png")));
+		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				pesquisar(modelo);
@@ -81,10 +83,10 @@ public class Main extends JFrame {
 					
 			}
 		});
-		btnNewButton.setMnemonic('s');
-		btnNewButton.setToolTipText("Pesquisar livro");
-		btnNewButton.setBounds(459, 5, 31, 23);
-		contentPane.add(btnNewButton);
+		btnSearch.setMnemonic('s');
+		btnSearch.setToolTipText("Pesquisar livro");
+		btnSearch.setBounds(459, 5, 31, 23);
+		contentPane.add(btnSearch);
 		
 		
 		table = new JTable(modelo);

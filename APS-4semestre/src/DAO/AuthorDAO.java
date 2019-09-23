@@ -1,4 +1,4 @@
-package Controller;
+package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import Model.Authors;
 import UTIL.DbConnection;
 
-public class AuthorController extends DbConnection {
+public class AuthorDAO extends DbConnection {
 
 	public ArrayList<Authors> getAllAuthors() {
 

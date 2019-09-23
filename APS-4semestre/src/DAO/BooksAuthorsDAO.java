@@ -1,4 +1,4 @@
-package Controller;
+package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import Model.BooksAuthors;
 import UTIL.DbConnection;
 
-public class BooksAuthorsController extends DbConnection {
+public class BooksAuthorsDAO extends DbConnection {
 	public ArrayList<BooksAuthors> searchBooksAuthors(String name) {
 
 		final String query = "SELECT b.title, GROUP_CONCAT(a.fname) ,p.name, b.price  " + " FROM booksauthors ba "

@@ -1,38 +1,41 @@
 package View;
 
-import java.awt.BorderLayout;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.FlowLayout;
+import javax.swing.table.DefaultTableModel;
+
+import Controllers.AuthorsController;
+import DAO.*;
+
 import javax.swing.JTextField;
-import javax.swing.JDesktopPane;
-import javax.swing.JSeparator;
-import javax.swing.JSlider;
-import javax.swing.JToggleButton;
-import javax.swing.JToolBar;
-import javax.swing.JInternalFrame;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
-import javax.swing.JRadioButton;
-import javax.swing.JTable;
-import javax.swing.JProgressBar;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
-import java.awt.Window.Type;
+import javax.swing.*;
 import java.awt.Toolkit;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class TelaInicial extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtBusca;
 	private JTable table;
+	private JButton btBusca;
+	private JButton btnExcluir;
+	private JComboBox comboBox;
+	private JScrollPane scrollPane;
+	private DefaultTableModel modelo = new DefaultTableModel();;
+	private AuthorsController authorsController = new AuthorsController();
 
 	/**
 	 * Launch the application.
@@ -71,7 +74,7 @@ public class TelaInicial extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JButton btBusca = new JButton("");
+		btBusca = new JButton("");
 		btBusca.setIcon(new ImageIcon(TelaInicial.class.getResource("/Img/search.png")));
 		btBusca.setBounds(743, 6, 27, 23);
 		panel.add(btBusca);
@@ -85,22 +88,6 @@ public class TelaInicial extends JFrame {
 		lblInsiraUmNome.setFont(new Font("Arial Black", Font.PLAIN, 15));
 		lblInsiraUmNome.setBounds(221, 6, 179, 23);
 		panel.add(lblInsiraUmNome);
-		
-		JRadioButton rdbtnAutor = new JRadioButton("Autor");
-		rdbtnAutor.setSelected(true);
-		rdbtnAutor.setBackground(Color.LIGHT_GRAY);
-		rdbtnAutor.setBounds(10, 7, 60, 23);
-		panel.add(rdbtnAutor);
-		
-		JRadioButton rdbtnLivro = new JRadioButton("Livro");
-		rdbtnLivro.setBackground(Color.LIGHT_GRAY);
-		rdbtnLivro.setBounds(72, 7, 60, 23);
-		panel.add(rdbtnLivro);
-		
-		JRadioButton rdbtnEditora = new JRadioButton("Editora");
-		rdbtnEditora.setBackground(Color.LIGHT_GRAY);
-		rdbtnEditora.setBounds(134, 7, 81, 23);
-		panel.add(rdbtnEditora);
 		
 		JButton btnAdicionarLivro = new JButton("Livro");
 		btnAdicionarLivro.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -123,7 +110,8 @@ public class TelaInicial extends JFrame {
 		btnAdicionarAutor.setBounds(231, 37, 94, 23);
 		panel.add(btnAdicionarAutor);
 		
-		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir = new JButton("Excluir");
+		
 		btnExcluir.setIcon(new ImageIcon(TelaInicial.class.getResource("/Img/clear.png")));
 		btnExcluir.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnExcluir.setBounds(667, 40, 103, 23);
@@ -135,12 +123,91 @@ public class TelaInicial extends JFrame {
 		btnAlterar.setBounds(568, 40, 89, 23);
 		panel.add(btnAlterar);
 		
-		table = new JTable();
+		comboBox = new JComboBox();
+		comboBox.setFont(new Font("Arial", Font.PLAIN, 12));
+		comboBox.setToolTipText("Selecione uma op\u00E7\u00E3o");
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Selecione uma op\u00E7\u00E3o...", "Autor", "Livro", "Editora"}));		
+		comboBox.setBounds(10, 9, 201, 20);
+		panel.add(comboBox);
+		
+		table = new JTable(modelo);
 		table.setBounds(10, 94, 780, 353);
 		contentPane.add(table);
 		
-		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(10, 94, 780, 353);
 		contentPane.add(scrollPane);
+		
+		ActionButton();
+	}
+	
+	public void ActionButton() {
+		
+		/*AÇÃO PARA BUSCAR NO BANCO E MONTAR A TABELA*/		
+		btBusca.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(comboBox.getSelectedIndex() != 0) {
+					String search = comboBox.getItemAt(comboBox.getSelectedIndex()).toString();	
+					creatTable(search);
+				}
+				else 
+					JOptionPane.showMessageDialog(null,
+					        "Houve um problema ao procurar :\n\n '" + "Selecione alguma opção" + "'.", //mensagem
+					        "Erro ao buscar", // titulo da janela 
+					        JOptionPane.WARNING_MESSAGE);
+			}
+		});
+		
+		/*AÇÃO PARA DELETAR UM ELEMENTO SELECIONADO ESPECIFICO*/
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int resposta = JOptionPane.showConfirmDialog(null,"Você tem certeza que deseja deletar?","Confirmação...",  JOptionPane.YES_NO_OPTION);
+			    //verfica se a resposta é verdadeira
+			    if (resposta == JOptionPane.YES_OPTION) {
+			        JOptionPane.showMessageDialog(null, "Olá");
+			      }
+			}
+		});
+	}
+	
+	public void creatTable(String search) {
+		
+		if(search == "Autor") {
+			modelo.addColumn("Nome");
+	        modelo.addColumn("Sobrenome");
+	        
+	        table.getColumnModel().getColumn(0)
+	        .setPreferredWidth(110);
+	        table.getColumnModel().getColumn(1)
+	        .setPreferredWidth(120);
+	        
+	        authorsController.createTableAuthor(modelo);
+		}
+		else if(search == "Livro") {
+			modelo.addColumn("Titulo");
+	        modelo.addColumn("Autor(es)");
+	        modelo.addColumn("Editora(s)");
+	        modelo.addColumn("Preço");
+	        
+	        table.getColumnModel().getColumn(0)
+	        .setPreferredWidth(110);
+	        table.getColumnModel().getColumn(1)
+	        .setPreferredWidth(120);
+	        table.getColumnModel().getColumn(2)
+	        .setPreferredWidth(50);
+	        table.getColumnModel().getColumn(3)
+	        .setPreferredWidth(30);
+			
+		}
+		else {
+			modelo.addColumn("Nome");
+	        modelo.addColumn("URL");
+	        
+	        table.getColumnModel().getColumn(0)
+	        .setPreferredWidth(110);
+	        table.getColumnModel().getColumn(1)
+	        .setPreferredWidth(120);
+		}
+		
 	}
 }
