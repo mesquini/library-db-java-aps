@@ -10,13 +10,14 @@ import Model.BooksAuthors;
 import UTIL.DbConnection;
 
 public class BooksAuthorsDAO extends DbConnection {
+	
 	public ArrayList<BooksAuthors> searchBooksAuthors(String name) {
 
-		final String query = "SELECT b.title, GROUP_CONCAT(a.fname) ,p.name, b.price  " + " FROM booksauthors ba "
+		final String query = "SELECT b.isbn, b.title, GROUP_CONCAT(a.fname) ,p.name, b.price  " + " FROM booksauthors ba "
 				+ " inner join books b on ba.isbn = b.isbn "
 				+ " inner join publishers p on b.publisher_id = p.publisher_id "
 				+ " INNER JOIN authors a on ba.author_id = a.author_id " + " WHERE b.title like '%" + name + "%'"
-				+ " GROUP BY b.title, b.price, p.name";
+				+ " GROUP BY b.isbn, b.title, b.price, p.name";
 
 		ArrayList<BooksAuthors> lstBooksAuthors = new ArrayList<BooksAuthors>();
 		BooksAuthors booksAuthors;
@@ -31,10 +32,11 @@ public class BooksAuthorsDAO extends DbConnection {
 			while (rs.next()) {
 				booksAuthors = new BooksAuthors();
 
-				booksAuthors.setTitle(rs.getString(1));
-				booksAuthors.setFname(rs.getString(2));
-				booksAuthors.setName(rs.getString(3));
-				booksAuthors.setPrice(rs.getDouble(4));
+				booksAuthors.setIsbn(rs.getString(1));
+				booksAuthors.setTitle(rs.getString(2));
+				booksAuthors.setFname(rs.getString(3));
+				booksAuthors.setName(rs.getString(4));
+				booksAuthors.setPrice(rs.getDouble(5));
 
 				lstBooksAuthors.add(booksAuthors);
 			}
@@ -49,6 +51,47 @@ public class BooksAuthorsDAO extends DbConnection {
 			return null;
 		}
 
+	}
+	
+	public ArrayList<BooksAuthors> getAllBooksAuthors() {
+		
+		final String query = "SELECT b.isbn, b.title, GROUP_CONCAT(a.fname) ,p.name, b.price  " + " FROM booksauthors ba "
+				+ " inner join books b on ba.isbn = b.isbn "
+				+ " inner join publishers p on b.publisher_id = p.publisher_id "
+				+ " INNER JOIN authors a on ba.author_id = a.author_id "
+				+ " GROUP BY b.isbn, b.title, b.price, p.name";
+
+		ArrayList<BooksAuthors> lstBooksAuthors = new ArrayList<BooksAuthors>();
+		BooksAuthors booksAuthors;
+
+		try (Connection connection = getConexaoMySQL()) {
+
+			PreparedStatement pstm = connection.prepareStatement(query);
+			// pstm.setString(1, name);
+
+			ResultSet rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				booksAuthors = new BooksAuthors();
+
+				booksAuthors.setIsbn(rs.getString(1));
+				booksAuthors.setTitle(rs.getString(2));
+				booksAuthors.setFname(rs.getString(3));
+				booksAuthors.setName(rs.getString(4));
+				booksAuthors.setPrice(rs.getDouble(5));
+
+				lstBooksAuthors.add(booksAuthors);
+			}
+
+			FecharConexao();
+
+			return lstBooksAuthors;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			FecharConexao();
+			return null;
+		}
 	}
 
 	public void addBookAuthors(int author_id, String isbn, int seq_no) {

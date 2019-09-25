@@ -45,26 +45,29 @@ public class AuthorDAO extends DbConnection {
 
 	}
 
-	public Authors searchAuthor(String name) {
+	public ArrayList<Authors> searchAuthor(String name) {
 
-		final String query = "SELECT * FROM authors WHERE name = ?";
-		Authors author = new Authors();
-
+		final String query = "SELECT * FROM authors WHERE name like '%" + name + "%' ";
+		Authors author;
+		ArrayList<Authors> lstUser = new ArrayList<Authors>();
+		
 		try (Connection connection = getConexaoMySQL()) {
 
 			PreparedStatement pstm = connection.prepareStatement(query);
-			pstm.setString(1, name);
+			//pstm.setString(1, name);
 			ResultSet rs = pstm.executeQuery();
 			while (rs.next()) {
-
+				author = new Authors();
 				author.setAuthor_id(Integer.parseInt(rs.getString(1)));
 				author.setName(rs.getString(2));
 				author.setFname(rs.getString(3));
+				
+				lstUser.add(author);
 			}
 
 			FecharConexao();
 
-			return author;
+			return lstUser;
 
 		} catch (SQLException e) {
 			e.printStackTrace();

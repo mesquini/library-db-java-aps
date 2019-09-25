@@ -11,6 +11,7 @@ import Model.Publishers;
 import UTIL.DbConnection;
 
 public class PublishersDAO extends DbConnection{
+	
 	public ArrayList<Publishers> getAllPublishers() {
 
 		ArrayList<Publishers> lstPublisher = new ArrayList<Publishers>();
@@ -44,26 +45,32 @@ public class PublishersDAO extends DbConnection{
 
 	}
 
-	public Publishers searchPublisher(String name) {
+	public ArrayList<Publishers>  searchPublisher(String name) {
 
-		final String query = "SELECT * FROM publishers WHERE name = ?";
-		Publishers publisher = new Publishers();
+		final String query = "SELECT * FROM publishers WHERE name like '%"+ name +"%'";
+		
+		ArrayList<Publishers> lstPublisher = new ArrayList<Publishers>();
+		Publishers publisher;
 
 		try (Connection connection = getConexaoMySQL()) {
 
 			PreparedStatement pstm = connection.prepareStatement(query);
-			pstm.setString(1, name);
+			//pstm.setString(1, name);
 			ResultSet rs = pstm.executeQuery();
 			while (rs.next()) {
 
+				publisher = new Publishers();
+				
 				publisher.setPublisher_id(Integer.parseInt(rs.getString(1)));
 				publisher.setName(rs.getString(2));
 				publisher.setUrl(rs.getString(3));
+				
+				lstPublisher.add(publisher);
 			}
 
 			FecharConexao();
 
-			return publisher;
+			return lstPublisher;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
