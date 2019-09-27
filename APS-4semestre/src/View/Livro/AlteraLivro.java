@@ -20,6 +20,7 @@ public class AlteraLivro extends JFrame {
 				try {
 					AlteraLivro frame = new AlteraLivro();
 					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

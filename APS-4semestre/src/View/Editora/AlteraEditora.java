@@ -20,6 +20,7 @@ public class AlteraEditora extends JFrame {
 				try {
 					AlteraEditora frame = new AlteraEditora();
 					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

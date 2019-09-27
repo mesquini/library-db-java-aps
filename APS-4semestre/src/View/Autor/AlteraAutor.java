@@ -20,6 +20,7 @@ public class AlteraAutor extends JFrame {
 				try {
 					AlteraAutor frame = new AlteraAutor();
 					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

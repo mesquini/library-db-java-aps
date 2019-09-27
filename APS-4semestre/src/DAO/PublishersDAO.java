@@ -46,7 +46,7 @@ public class PublishersDAO extends DbConnection{
 	}
 
 	public ArrayList<Publishers>  searchPublisher(String name) {
-
+		
 		final String query = "SELECT * FROM publishers WHERE name like '%"+ name +"%'";
 		
 		ArrayList<Publishers> lstPublisher = new ArrayList<Publishers>();
