@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 
 import Controllers.AuthorsController;
 import Controllers.BooksAuthorsController;
+import Controllers.BooksController;
 import Controllers.PublishersController;
 import DAO.*;
 import Model.*;
@@ -44,6 +45,7 @@ public class TelaInicial extends JFrame {
 		}
 	};
 	private AuthorsController authorsController = new AuthorsController();
+	private BooksController booksController = new BooksController();
 	private PublishersController publishersController = new PublishersController();
 	private BooksAuthorsController booksAuthorsController = new BooksAuthorsController();
 
@@ -192,17 +194,14 @@ public class TelaInicial extends JFrame {
 					if (resposta == JOptionPane.YES_OPTION) {
 
 						String linhaSelecionada = table.getValueAt(table.getSelectedRow(), 0).toString();
-						
+						modelo.removeRow(table.getSelectedRow());
 						if (search.equals("Autor")) {
 							authorsController.deleteAuthor(linhaSelecionada);
+						} else if (search.equals("Livro")) {
+							booksController.deleteBook(linhaSelecionada);
+						} else {
+							publishersController.deletePublisher(linhaSelecionada);
 						}
-						else if (search.equals("Livro")) {
-
-						}
-						else{
-
-						}
-
 
 						JOptionPane.showMessageDialog(null, "Excluido com sucesso.");
 					}
@@ -215,6 +214,26 @@ public class TelaInicial extends JFrame {
 		/* AÇÃO PARA ABRIR JANELA DE EDIÇÃO */
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				if (table.getSelectedColumn() >= 0) {
+
+					String linhaSelecionada = table.getValueAt(table.getSelectedRow(), 0).toString();
+					
+					if (search.equals("Autor")) {
+						 
+						AlteraAutor.main(null, authorsController.searchIdAuthor(linhaSelecionada));
+						dispose();
+					} else if (search.equals("Livro")) {
+						AlteraLivro.main(null);
+						dispose();
+					} else {
+						AlteraEditora.main(null, publishersController.searchID(linhaSelecionada));
+						dispose();
+					}
+
+				} else
+					JOptionPane.showMessageDialog(null, "Selecione uma linha para editar.", "Aviso",
+							JOptionPane.WARNING_MESSAGE);
 
 			}
 		});
@@ -295,7 +314,7 @@ public class TelaInicial extends JFrame {
 	}
 
 	public void cleanTable() {
-		while (modelo.getRowCount() > 0) {
+		while (modelo.getRowCount() > 0 && modelo.getColumnCount() > 0) {
 
 			table.setModel(modelo = new DefaultTableModel());
 		}

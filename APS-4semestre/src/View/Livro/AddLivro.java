@@ -22,6 +22,10 @@ import java.awt.Font;
 
 public class AddLivro extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textISBN;
 	private JTextField textTitle;
@@ -93,6 +97,7 @@ public class AddLivro extends JFrame {
 		panel.add(lblIdDaEditora);
 		
 		JLabel lblIdDoAutor = new JLabel("ID do Autor:");
+		lblIdDoAutor.setToolTipText("Separar por virgula se quiser mais autor");
 		lblIdDoAutor.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblIdDoAutor.setBounds(216, 110, 76, 14);
 		panel.add(lblIdDoAutor);

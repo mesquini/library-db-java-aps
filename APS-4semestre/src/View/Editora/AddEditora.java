@@ -1,6 +1,5 @@
 package View.Editora;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -9,7 +8,6 @@ import javax.swing.border.EmptyBorder;
 
 import Controllers.PublishersController;
 import View.TelaInicial;
-import sun.invoke.empty.Empty;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -18,15 +16,17 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.ImageIcon;
-import java.awt.SystemColor;
 import java.awt.Color;
-import javax.swing.UIManager;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class AddEditora extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtName;
 	private JTextField textURL;

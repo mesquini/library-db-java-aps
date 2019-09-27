@@ -88,7 +88,7 @@ public class AuthorDAO extends DbConnection {
 			pstm.setString(1, name);
 			pstm.setString(2, fname);
 
-			pstm.executeUpdate();
+			pstm.execute();
 
 			FecharConexao();
 

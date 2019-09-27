@@ -10,13 +10,12 @@ import Model.BooksAuthors;
 public class BooksAuthorsController {
 	
 	static ArrayList<BooksAuthors> booksAuthors;
-	static BooksAuthorsDAO booksAuthorsDAO;
+	static BooksAuthorsDAO booksAuthorsDAO = new BooksAuthorsDAO();
 
 	public void createTableBooks(DefaultTableModel modelo, String name) {
 		modelo.setNumRows(0);	
 			
 		booksAuthors = new ArrayList<BooksAuthors>();
-		booksAuthorsDAO = new BooksAuthorsDAO();
 		
 		booksAuthors = name != " " ? booksAuthorsDAO.searchBooksAuthors(name) : booksAuthorsDAO.getAllBooksAuthors();
 
@@ -25,5 +24,6 @@ public class BooksAuthorsController {
 		}
 		
 	}
+
 
 }

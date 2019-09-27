@@ -33,14 +33,15 @@ public class PublishersController {
 
 			publishers = new ArrayList<Publishers>();
 			publishers = publishersDAO.searchPublisher(name);
-			
-			for(Publishers p : publishers) {
-				if(p.getName().equals(name)) {
-					JOptionPane.showMessageDialog(null, "Editora " + name+  " já está cadastrada!", "Aviso", JOptionPane.WARNING_MESSAGE);
+
+			for (Publishers p : publishers) {
+				if (p.getName().equals(name)) {
+					JOptionPane.showMessageDialog(null, "Editora " + name + " já está cadastrada!", "Aviso",
+							JOptionPane.WARNING_MESSAGE);
 					return false;
 				}
 			}
-			
+
 			publishersDAO.addPublisher(name, url);
 			return true;
 		}
@@ -62,5 +63,37 @@ public class PublishersController {
 
 		return true;
 	}
+
+	public void deletePublisher(String idPublisher) {
+		int id = Integer.parseInt(idPublisher);
+
+		publishersDAO.deletePublisher(id);
+	}
+
+	public Publishers searchID(String idPublisher) {
+		int id = Integer.parseInt(idPublisher);
+		
+		publishers = publishersDAO.getAllPublishers();
+		for(Publishers p : publishers) {
+			if(p.getPublisher_id() == id) {
+				return p;
+			}
+		}
+		return null;
+		
+	}
+	
+	public void updatePublisher(int publisher_id, String name, String url) {
+		
+		if(validaCampos(name, url)) {
+			publishersDAO.updatePublisher(publisher_id, name, url);
+			
+			JOptionPane.showMessageDialog(null, "Editora foi alterado com sucesso!", "Alteração Editora",
+					JOptionPane.INFORMATION_MESSAGE);
+			
+		}
+		
+	}
+
 
 }
