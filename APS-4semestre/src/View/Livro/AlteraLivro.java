@@ -7,15 +7,18 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
 
 import View.TelaInicial;
 
@@ -23,8 +26,8 @@ public class AlteraLivro extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textTitle;
-	private JTextField textPrice;
 	private JTextField textIdAuthor;
+	private JFormattedTextField textPrice;
 	private JButton btnVoltar, btnAlterar;
 
 	/**
@@ -46,8 +49,9 @@ public class AlteraLivro extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws ParseException 
 	 */
-	public AlteraLivro() {
+	public AlteraLivro() throws ParseException {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(AddLivro.class.getResource("/Img/books.png")));
 		setTitle("Adicionar um novo Livro");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -97,8 +101,10 @@ public class AlteraLivro extends JFrame {
 		textTitle.setColumns(10);
 		textTitle.setBounds(66, 57, 312, 20);
 		panel.add(textTitle);
-
-		textPrice = new JTextField();
+		
+		MaskFormatter price = new MaskFormatter("###,##");
+		price.setPlaceholderCharacter('_');
+		textPrice = new JFormattedTextField(price);
 		textPrice.setFont(new Font("Arial", Font.PLAIN, 12));
 		textPrice.setColumns(10);
 		textPrice.setBounds(66, 82, 86, 20);

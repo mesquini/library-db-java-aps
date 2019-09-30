@@ -10,11 +10,11 @@ import Model.BooksAuthors;
 import UTIL.DbConnection;
 
 public class BooksAuthorsDAO extends DbConnection {
-	
+
 	public ArrayList<BooksAuthors> searchBooksAuthors(String name) {
 
-		final String query = "SELECT b.isbn, b.title, GROUP_CONCAT(a.fname) ,p.name, b.price  " + " FROM booksauthors ba "
-				+ " inner join books b on ba.isbn = b.isbn "
+		final String query = "SELECT b.isbn, b.title, GROUP_CONCAT(a.fname) ,p.name, b.price  "
+				+ " FROM booksauthors ba " + " inner join books b on ba.isbn = b.isbn "
 				+ " inner join publishers p on b.publisher_id = p.publisher_id "
 				+ " INNER JOIN authors a on ba.author_id = a.author_id " + " WHERE b.title like (?)"
 				+ " GROUP BY b.isbn, b.title, b.price, p.name";
@@ -25,7 +25,7 @@ public class BooksAuthorsDAO extends DbConnection {
 		try (Connection connection = getConexaoMySQL()) {
 
 			PreparedStatement pstm = connection.prepareStatement(query);
-			 pstm.setString(1, "%" + name + "%");
+			pstm.setString(1, "%" + name + "%");
 
 			ResultSet rs = pstm.executeQuery();
 
@@ -52,14 +52,13 @@ public class BooksAuthorsDAO extends DbConnection {
 		}
 
 	}
-	
+
 	public ArrayList<BooksAuthors> getAllBooksAuthors() {
-		
-		final String query = "SELECT b.isbn, b.title, GROUP_CONCAT(a.fname) ,p.name, b.price  " + " FROM booksauthors ba "
-				+ " inner join books b on ba.isbn = b.isbn "
+
+		final String query = "SELECT b.isbn, b.title, GROUP_CONCAT(a.fname) ,p.name, b.price  "
+				+ " FROM booksauthors ba " + " inner join books b on ba.isbn = b.isbn "
 				+ " inner join publishers p on b.publisher_id = p.publisher_id "
-				+ " INNER JOIN authors a on ba.author_id = a.author_id "
-				+ " GROUP BY b.isbn, b.title, b.price, p.name";
+				+ " INNER JOIN authors a on ba.author_id = a.author_id " + " GROUP BY b.isbn, b.title, b.price, p.name";
 
 		ArrayList<BooksAuthors> lstBooksAuthors = new ArrayList<BooksAuthors>();
 		BooksAuthors booksAuthors;
@@ -67,7 +66,6 @@ public class BooksAuthorsDAO extends DbConnection {
 		try (Connection connection = getConexaoMySQL()) {
 
 			PreparedStatement pstm = connection.prepareStatement(query);
-			// pstm.setString(1, name);
 
 			ResultSet rs = pstm.executeQuery();
 
@@ -91,6 +89,41 @@ public class BooksAuthorsDAO extends DbConnection {
 			e.printStackTrace();
 			FecharConexao();
 			return null;
+		}
+	}
+
+	public boolean checkAuthorExist(int id) {
+
+		final String query = "SELECT * FROM booksauthors WHERE author_id = ?";
+
+		BooksAuthors booksAuthors = new BooksAuthors();
+
+		try (Connection connection = getConexaoMySQL()) {
+
+			PreparedStatement pstm = connection.prepareStatement(query);
+
+			ResultSet rs = pstm.executeQuery();
+
+			if (rs != null) {
+
+				while (rs.next()) {
+
+					booksAuthors.setIsbn(rs.getString(1));
+					booksAuthors.setAuthor_id(rs.getInt(2));
+					booksAuthors.setSeq_no(rs.getInt(3));
+
+				}
+
+				FecharConexao();
+
+				return true;
+			}
+			FecharConexao();
+			return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			FecharConexao();
+			return false;
 		}
 	}
 
@@ -116,5 +149,5 @@ public class BooksAuthorsDAO extends DbConnection {
 		}
 
 	}
-	
+
 }

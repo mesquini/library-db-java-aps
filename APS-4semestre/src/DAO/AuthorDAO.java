@@ -11,6 +11,8 @@ import Model.Authors;
 import UTIL.DbConnection;
 
 public class AuthorDAO extends DbConnection {
+	
+	BooksAuthorsDAO ba = new BooksAuthorsDAO();
 
 	public ArrayList<Authors> getAllAuthors() {
 
@@ -122,17 +124,29 @@ public class AuthorDAO extends DbConnection {
 
 	}
 
-	public void deleteAuthor(int id) {
-
-		final String delete = "DELETE FROM authors WHERE author_id = ?";
+	public void deleteAuthor(int id) {		
 
 		try (Connection con = getConexaoMySQL()) {
-
+			
+			final String delete = "DELETE FROM authors WHERE author_id = ?";		
+			
+			if(ba.checkAuthorExist(id)) {
+				
+				final String deleteBa = "DELETE FROM booksauthors WHERE author_id = ?";
+				
+				PreparedStatement pstm = con.prepareStatement(deleteBa);
+				
+				pstm.setInt(1, id);
+				
+				pstm.execute();
+			}
+			
 			PreparedStatement pstm = con.prepareStatement(delete);
 
 			pstm.setInt(1, id);
 
 			pstm.execute();
+			
 
 			FecharConexao();
 
