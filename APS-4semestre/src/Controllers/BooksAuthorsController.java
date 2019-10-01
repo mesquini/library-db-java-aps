@@ -20,7 +20,7 @@ public class BooksAuthorsController {
 		booksAuthors = name != " " ? booksAuthorsDAO.searchBooksAuthors(name) : booksAuthorsDAO.getAllBooksAuthors();
 
 		for (BooksAuthors a : booksAuthors) {
-			modelo.addRow(new Object[] { a.getIsbn(), a.getTitle(), a.getFname(), a.getName() ,a.getPrice() });
+			modelo.addRow(new Object[] { a.getIsbn(), a.getTitle(), a.getFname(), a.getName() ,"$ "+ a.getPrice() });
 		}
 		
 	}

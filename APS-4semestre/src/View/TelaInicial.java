@@ -3,9 +3,9 @@ package View;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -45,7 +45,7 @@ public class TelaInicial extends JFrame {
 		}
 	};
 	private AuthorsController authorsController = new AuthorsController();
-	private BooksController booksController = new BooksController();
+	private static BooksController booksController = new BooksController();
 	private PublishersController publishersController = new PublishersController();
 	private BooksAuthorsController booksAuthorsController = new BooksAuthorsController();
 
@@ -140,12 +140,13 @@ public class TelaInicial extends JFrame {
 		btnAlterar.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnAlterar.setBounds(568, 40, 89, 23);
 		panel.add(btnAlterar);
-
+		
 		comboBox = new JComboBox();
 		comboBox.setFont(new Font("Arial", Font.PLAIN, 12));
 		comboBox.setToolTipText("Selecione uma op\u00E7\u00E3o");
 		comboBox.setModel(new DefaultComboBoxModel(
-				new String[] { "Selecione uma op\u00E7\u00E3o...", "Autor", "Livro", "Editora" }));
+				new String [] {"Selecione uma opção...","Autor","Livro","Editora"}));
+		
 		comboBox.setBounds(10, 9, 201, 20);
 		panel.add(comboBox);
 
@@ -158,7 +159,7 @@ public class TelaInicial extends JFrame {
 		contentPane.add(scrollPane);
 
 		ActionButton();
-
+		
 	}
 
 	private static String search = null;

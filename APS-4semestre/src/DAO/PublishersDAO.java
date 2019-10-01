@@ -47,7 +47,7 @@ public class PublishersDAO extends DbConnection{
 
 	public ArrayList<Publishers>  searchPublisher(String name) {
 		
-		final String query = "SELECT * FROM publishers WHERE name like '%"+ name +"%'";
+		final String query = "SELECT * FROM publishers WHERE name like (?)";
 		
 		ArrayList<Publishers> lstPublisher = new ArrayList<Publishers>();
 		Publishers publisher;
@@ -55,7 +55,7 @@ public class PublishersDAO extends DbConnection{
 		try (Connection connection = getConexaoMySQL()) {
 
 			PreparedStatement pstm = connection.prepareStatement(query);
-			//pstm.setString(1, name);
+			pstm.setString(1, "%" + name + "%");
 			ResultSet rs = pstm.executeQuery();
 			while (rs.next()) {
 

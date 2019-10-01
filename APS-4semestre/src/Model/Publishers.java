@@ -25,6 +25,4 @@ public class Publishers extends Authors{
 		this.url = url;
 	}
 	
-	
-
 }

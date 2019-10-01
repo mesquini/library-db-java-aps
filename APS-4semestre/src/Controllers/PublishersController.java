@@ -72,28 +72,38 @@ public class PublishersController {
 
 	public Publishers searchID(String idPublisher) {
 		int id = Integer.parseInt(idPublisher);
-		
+
 		publishers = publishersDAO.getAllPublishers();
-		for(Publishers p : publishers) {
-			if(p.getPublisher_id() == id) {
+		for (Publishers p : publishers) {
+			if (p.getPublisher_id() == id) {
 				return p;
 			}
 		}
 		return null;
-		
-	}
-	
-	public void updatePublisher(int publisher_id, String name, String url) {
-		
-		if(validaCampos(name, url)) {
-			publishersDAO.updatePublisher(publisher_id, name, url);
-			
-			JOptionPane.showMessageDialog(null, "Editora foi alterado com sucesso!", "Alteração Editora",
-					JOptionPane.INFORMATION_MESSAGE);
-			
-		}
-		
+
 	}
 
+	public void updatePublisher(int publisher_id, String name, String url) {
+
+		if (validaCampos(name, url)) {
+			publishersDAO.updatePublisher(publisher_id, name, url);
+
+			JOptionPane.showMessageDialog(null, "Editora foi alterado com sucesso!", "Alteração Editora",
+					JOptionPane.INFORMATION_MESSAGE);
+
+		}
+
+	}
+
+	public String[] createComboBoxPublishers() {
+		ArrayList<Publishers> publishers = publishersDAO.getAllPublishers();
+		String[] publishersList = new String[publishers.size()];
+
+		for (int ii = 0; ii < publishersList.length; ii++) {
+			publishersList[ii] = publishers.get(ii).getName();
+		}
+
+		return publishersList;
+	}
 
 }

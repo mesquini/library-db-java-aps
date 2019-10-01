@@ -49,14 +49,14 @@ public class AuthorDAO extends DbConnection {
 
 	public ArrayList<Authors> searchAuthor(String name) {
 
-		final String query = "SELECT * FROM authors WHERE name like '%" + name + "%' ";
+		final String query = "SELECT * FROM authors WHERE name like (?) ";
 		Authors author;
 		ArrayList<Authors> lstUser = new ArrayList<Authors>();
 		
 		try (Connection connection = getConexaoMySQL()) {
 
 			PreparedStatement pstm = connection.prepareStatement(query);
-			//pstm.setString(1, name);
+			pstm.setString(1, "%" + name + "%");
 			ResultSet rs = pstm.executeQuery();
 			while (rs.next()) {
 				author = new Authors();

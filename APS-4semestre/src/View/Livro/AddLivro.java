@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
+import Controllers.PublishersController;
 import View.TelaInicial;
 
 import javax.swing.JTextField;
@@ -21,8 +22,11 @@ import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 import java.awt.Font;
+
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DropMode;
 import javax.swing.JFormattedTextField;
+import javax.swing.JComboBox;
 
 public class AddLivro extends JFrame {
 
@@ -34,9 +38,9 @@ public class AddLivro extends JFrame {
 	private JTextField textISBN;
 	private JTextField textTitle;
 	private JFormattedTextField textPrice;
-	private JTextField textIdPublisher;
 	private JTextField textIdAuthor;
 	private JButton btnVoltar, btnCadastrar;
+	private PublishersController publishersController = new PublishersController();
 
 	/**
 	 * Launch the application.
@@ -97,7 +101,7 @@ public class AddLivro extends JFrame {
 		lblPreo.setBounds(162, 60, 46, 14);
 		panel.add(lblPreo);
 
-		JLabel lblIdDaEditora = new JLabel("ID da Editora:");
+		JLabel lblIdDaEditora = new JLabel("Editora:");
 		lblIdDaEditora.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblIdDaEditora.setBounds(10, 143, 76, 14);
 		panel.add(lblIdDaEditora);
@@ -136,12 +140,6 @@ public class AddLivro extends JFrame {
 		textPrice.setBounds(203, 57, 86, 20);
 		panel.add(textPrice);
 
-		textIdPublisher = new JTextField();
-		textIdPublisher.setFont(new Font("Arial", Font.PLAIN, 12));
-		textIdPublisher.setColumns(10);
-		textIdPublisher.setBounds(97, 140, 86, 20);
-		panel.add(textIdPublisher);
-
 		textIdAuthor = new JTextField();
 		textIdAuthor.setFont(new Font("Arial", Font.PLAIN, 12));
 		textIdAuthor.setColumns(10);
@@ -159,6 +157,11 @@ public class AddLivro extends JFrame {
 		formattedTextField.setFont(new Font("Arial", Font.PLAIN, 12));
 		formattedTextField.setBounds(346, 58, 32, 20);
 		panel.add(formattedTextField);
+		
+		JComboBox comboBoxPublisher = new JComboBox();
+		comboBoxPublisher.setBounds(66, 141, 147, 20);
+		comboBoxPublisher.setModel(new DefaultComboBoxModel(publishersController.createComboBoxPublishers()));
+		panel.add(comboBoxPublisher);
 
 		btnVoltar = new JButton("Voltar");
 
