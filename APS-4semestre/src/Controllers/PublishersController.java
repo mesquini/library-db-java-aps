@@ -98,7 +98,7 @@ public class PublishersController {
 	public String[] createComboBoxPublishers() {
 		ArrayList<Publishers> publishers = publishersDAO.getAllPublishers();
 		String[] publishersList = new String[publishers.size()];
-
+		
 		for (int ii = 0; ii < publishersList.length; ii++) {
 			publishersList[ii] = publishers.get(ii).getName();
 		}

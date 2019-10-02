@@ -1,6 +1,5 @@
 package View.Livro;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -8,8 +7,12 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
+import Controllers.BooksController;
 import Controllers.PublishersController;
+import Model.Publishers;
+import UTIL.Global;
 import View.TelaInicial;
+import View.Autor.AuthorsCheckBox;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -18,13 +21,14 @@ import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 import java.awt.Font;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DropMode;
 import javax.swing.JFormattedTextField;
 import javax.swing.JComboBox;
 
@@ -37,15 +41,17 @@ public class AddLivro extends JFrame {
 	private JPanel contentPane;
 	private JTextField textISBN;
 	private JTextField textTitle;
-	private JFormattedTextField textPrice;
-	private JTextField textIdAuthor;
-	private JButton btnVoltar, btnCadastrar;
+	private JFormattedTextField textPrice, textVolume;
+	private static JButton btnVoltar, btnCadastrar, btnAuthors;
 	private PublishersController publishersController = new PublishersController();
+	private BooksController booksController = new BooksController();
+	JComboBox<Publishers> comboBoxPublisher;
+	private static int[] objAuthors = null;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args, int[] obj) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -57,6 +63,7 @@ public class AddLivro extends JFrame {
 				}
 			}
 		});
+		objAuthors = obj;
 	}
 
 	/**
@@ -106,7 +113,7 @@ public class AddLivro extends JFrame {
 		lblIdDaEditora.setBounds(10, 143, 76, 14);
 		panel.add(lblIdDaEditora);
 
-		JLabel lblIdDoAutor = new JLabel("ID do Autor:");
+		JLabel lblIdDoAutor = new JLabel("Autor(ers):");
 		lblIdDoAutor.setToolTipText("Separar por virgula se quiser mais autor");
 		lblIdDoAutor.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblIdDoAutor.setBounds(223, 143, 76, 14);
@@ -140,28 +147,32 @@ public class AddLivro extends JFrame {
 		textPrice.setBounds(203, 57, 86, 20);
 		panel.add(textPrice);
 
-		textIdAuthor = new JTextField();
-		textIdAuthor.setFont(new Font("Arial", Font.PLAIN, 12));
-		textIdAuthor.setColumns(10);
-		textIdAuthor.setBounds(292, 140, 86, 20);
-		panel.add(textIdAuthor);
-
 		JLabel lblVolume = new JLabel("Volume:");
 		lblVolume.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblVolume.setBounds(299, 60, 46, 14);
 		panel.add(lblVolume);
 
 		MaskFormatter number = new MaskFormatter("###");
-		number.setPlaceholderCharacter('_');
-		JFormattedTextField formattedTextField = new JFormattedTextField(number);
-		formattedTextField.setFont(new Font("Arial", Font.PLAIN, 12));
-		formattedTextField.setBounds(346, 58, 32, 20);
-		panel.add(formattedTextField);
-		
-		JComboBox comboBoxPublisher = new JComboBox();
+		textVolume = new JFormattedTextField(number);
+		textVolume.setFont(new Font("Arial", Font.PLAIN, 12));
+		textVolume.setBounds(346, 58, 32, 20);
+		panel.add(textVolume);
+
+		comboBoxPublisher = new JComboBox<Publishers>();
+		comboBoxPublisher.setFont(new Font("Arial", Font.PLAIN, 12));
 		comboBoxPublisher.setBounds(66, 141, 147, 20);
 		comboBoxPublisher.setModel(new DefaultComboBoxModel(publishersController.createComboBoxPublishers()));
 		panel.add(comboBoxPublisher);
+
+		if (objAuthors != null) {
+			if (objAuthors.length > 0)
+				btnAuthors = new JButton(objAuthors.length + " Autores");
+		} else
+			btnAuthors = new JButton("0 Autores");
+
+		btnAuthors.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnAuthors.setBounds(288, 140, 89, 23);
+		panel.add(btnAuthors);
 
 		btnVoltar = new JButton("Voltar");
 
@@ -172,13 +183,14 @@ public class AddLivro extends JFrame {
 		contentPane.add(btnVoltar);
 
 		actionsButtons();
+		getValues();
 	}
 
 	public void actionsButtons() {
 
 		/* AÇÃO PARA VOLTAR PARA TELA INICIAL */
 		btnVoltar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {				
 				TelaInicial.main(null);
 				dispose();
 			}
@@ -187,7 +199,52 @@ public class AddLivro extends JFrame {
 		/* AÇÃO PARA CADASTRAR UM LIVRO */
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// String editora =
+				// comboBoxPublisher.getItemAt(comboBoxPublisher.getSelectedIndex()).toString();
+				booksController.createBook(textISBN.getText(), textTitle.getText(), textPrice.getText(),
+						Integer.parseInt(textVolume.getText()), "", objAuthors);
 			}
 		});
+
+		/* AÇÃO PARA ABRIR LISTA DE AUTORES */
+		btnAuthors.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setValues();
+				if (objAuthors != null) {
+					if (objAuthors.length > 0)
+						AuthorsCheckBox.main(null, objAuthors);
+				} else
+					AuthorsCheckBox.main(null, null);
+				dispose();
+			}
+		});
+	}
+	
+	public void limpaCampos() {
+		
+	}
+
+	public void getValues() {
+
+		textISBN.setText(Global.getIsbn());
+		if (textPrice.getText().equals("___,__")) {
+			if (Global.getPrice() != null)
+				textPrice.setText(Global.getPrice().toString().replace(".", ","));
+		}
+		textTitle.setText(Global.getTitle());
+		if (textVolume.getText().equals("   ")) {
+			if (Global.getValume() != null)
+				textVolume.setText(Global.getValume());
+		}
+		comboBoxPublisher.setSelectedIndex(Global.getEditora());
+	}
+
+	public void setValues() {
+		Global.setIsbn(textISBN.getText());
+		Global.setTitle(textTitle.getText());
+		if (!textPrice.getText().equals("___,__"))
+			Global.setPrice(Double.parseDouble(textPrice.getText().replace(",", ".")));		
+		Global.setValume(textVolume.getText());
+		Global.setEditora(comboBoxPublisher.getSelectedIndex());
 	}
 }

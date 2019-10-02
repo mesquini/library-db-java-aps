@@ -258,7 +258,7 @@ public class TelaInicial extends JFrame {
 		/* AÇÃO PARA ADICIONAR UM NOVO LIVRO */
 		btnAdicionarLivro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AddLivro.main(null);
+				AddLivro.main(null, null);
 				dispose();
 
 			}

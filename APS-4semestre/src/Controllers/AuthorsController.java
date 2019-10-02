@@ -30,7 +30,7 @@ public class AuthorsController {
 
 	public boolean createAuthor(String name, String lastName) {
 
-		if (validaCampos(name, lastName)) {			
+		if (validaCampos(name, lastName)) {
 
 			authorDAO.addAuthor(name, lastName);
 			return true;
@@ -53,21 +53,20 @@ public class AuthorsController {
 
 		return true;
 	}
-	
+
 	public void deleteAuthor(String idAuthor) {
 		int id = Integer.parseInt(idAuthor);
-		
+
 		authorDAO.deleteAuthor(id);
 	}
 
 	public Authors searchIdAuthor(String linhaSelecionada) {
 		int id = Integer.parseInt(linhaSelecionada);
-		
-		
+
 		authors = authorDAO.getAllAuthors();
-		
-		for(Authors a : authors) {
-			if(a.getAuthor_id() == id) {
+
+		for (Authors a : authors) {
+			if (a.getAuthor_id() == id) {
 				return a;
 			}
 		}
@@ -75,14 +74,25 @@ public class AuthorsController {
 	}
 
 	public void updateAuthor(int id, String name, String lastName) {
-		
-		if(validaCampos(name, lastName)) {
+
+		if (validaCampos(name, lastName)) {
 			authorDAO.updateAuthor(id, name, lastName);
-			
+
 			JOptionPane.showMessageDialog(null, "Autor alterado com sucesso!", "Alteração",
 					JOptionPane.INFORMATION_MESSAGE);
 		}
-		
+
+	}
+
+	public String[] createComboBoxAuthors() {
+		ArrayList<Authors> authors = authorDAO.getAllAuthors();
+		String[] authorsList = new String[authors.size()];
+
+		for (int ii = 0; ii < authorsList.length; ii++) {
+			authorsList[ii] = authors.get(ii).getName();
+		}
+
+		return authorsList;
 	}
 
 }
