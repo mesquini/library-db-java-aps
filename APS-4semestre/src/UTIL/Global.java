@@ -1,14 +1,25 @@
 package UTIL;
 
 public final class Global {
-	
-	private Global() {};
-	
+
+	private Global() {
+	};
+
 	private static String title;
 	private static String isbn;
-	private static Double price;
+	private static String price;
 	private static String valume;
 	private static int editora;
+	private static int[] objIdAuthors;
+	private static int[] ObjIdPublisher;
+
+	public static int[] getObjIdPublisher() {
+		return ObjIdPublisher;
+	}
+
+	public static void setObjIdPublisher(int[] objIdPublisher) {
+		ObjIdPublisher = objIdPublisher;
+	}
 
 	public static String getTitle() {
 		return title;
@@ -22,7 +33,7 @@ public final class Global {
 		return isbn;
 	}
 
-	public static Double getPrice() {
+	public static String getPrice() {
 		return price;
 	}
 
@@ -38,7 +49,7 @@ public final class Global {
 		Global.isbn = isbn;
 	}
 
-	public static void setPrice(Double price) {
+	public static void setPrice(String price) {
 		Global.price = price;
 	}
 
@@ -48,6 +59,24 @@ public final class Global {
 
 	public static void setEditora(int editora) {
 		Global.editora = editora;
+	}
+
+	public static int[] getObjIdAuthors() {
+		return objIdAuthors;
+	}
+
+	public static void setObjIdAuthors(int[] objIdAuthors) {
+		Global.objIdAuthors = objIdAuthors;
+	}
+
+	public static void limpaCampos() {
+		Global.title = null;
+		Global.isbn = null;
+		Global.price = null;
+		Global.valume = null;
+		Global.editora = 0;
+		Global.objIdAuthors = null;
+		Global.ObjIdPublisher = null;
 	}
 
 }

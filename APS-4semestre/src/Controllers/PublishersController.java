@@ -7,6 +7,7 @@ import javax.swing.table.DefaultTableModel;
 
 import DAO.PublishersDAO;
 import Model.Publishers;
+import UTIL.Global;
 
 public class PublishersController {
 
@@ -98,10 +99,14 @@ public class PublishersController {
 	public String[] createComboBoxPublishers() {
 		ArrayList<Publishers> publishers = publishersDAO.getAllPublishers();
 		String[] publishersList = new String[publishers.size()];
+		int[] objIdPublisher = new int[publishers.size()];
 		
 		for (int ii = 0; ii < publishersList.length; ii++) {
 			publishersList[ii] = publishers.get(ii).getName();
+			objIdPublisher[ii] = publishers.get(ii).getPublisher_id();
 		}
+		
+		Global.setObjIdPublisher(objIdPublisher);
 
 		return publishersList;
 	}

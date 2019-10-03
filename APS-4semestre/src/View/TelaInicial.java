@@ -3,8 +3,6 @@ package View;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -13,8 +11,6 @@ import Controllers.AuthorsController;
 import Controllers.BooksAuthorsController;
 import Controllers.BooksController;
 import Controllers.PublishersController;
-import DAO.*;
-import Model.*;
 import View.Editora.*;
 import View.Livro.*;
 import View.Autor.*;
@@ -140,13 +136,13 @@ public class TelaInicial extends JFrame {
 		btnAlterar.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnAlterar.setBounds(568, 40, 89, 23);
 		panel.add(btnAlterar);
-		
+
 		comboBox = new JComboBox();
 		comboBox.setFont(new Font("Arial", Font.PLAIN, 12));
 		comboBox.setToolTipText("Selecione uma op\u00E7\u00E3o");
-		comboBox.setModel(new DefaultComboBoxModel(
-				new String [] {"Selecione uma opção...","Autor","Livro","Editora"}));
-		
+		comboBox.setModel(
+				new DefaultComboBoxModel(new String[] { "Selecione uma opção...", "Autor", "Livro", "Editora" }));
+
 		comboBox.setBounds(10, 9, 201, 20);
 		panel.add(comboBox);
 
@@ -159,7 +155,7 @@ public class TelaInicial extends JFrame {
 		contentPane.add(scrollPane);
 
 		ActionButton();
-		
+
 	}
 
 	private static String search = null;
@@ -219,12 +215,13 @@ public class TelaInicial extends JFrame {
 				if (table.getSelectedColumn() >= 0) {
 
 					String linhaSelecionada = table.getValueAt(table.getSelectedRow(), 0).toString();
-					
+
 					if (search.equals("Autor")) {
-						 
+
 						AlteraAutor.main(null, authorsController.searchIdAuthor(linhaSelecionada));
 						dispose();
 					} else if (search.equals("Livro")) {
+						booksController.searchIdBook(linhaSelecionada);
 						AlteraLivro.main(null);
 						dispose();
 					} else {

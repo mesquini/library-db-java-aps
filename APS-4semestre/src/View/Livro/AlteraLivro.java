@@ -20,15 +20,16 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
+import UTIL.Global;
 import View.TelaInicial;
 
 public class AlteraLivro extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textTitle;
-	private JTextField textIdAuthor;
 	private JFormattedTextField textPrice;
 	private JButton btnVoltar, btnAlterar;
+	private JButton btnAutores;
 
 	/**
 	 * Launch the application.
@@ -83,12 +84,6 @@ public class AlteraLivro extends JFrame {
 		lblPreo.setBounds(10, 85, 46, 14);
 		panel.add(lblPreo);
 
-		JLabel lblIdDoAutor = new JLabel("ID do Autor:");
-		lblIdDoAutor.setToolTipText("Separar por virgula se quiser mais autor");
-		lblIdDoAutor.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblIdDoAutor.setBounds(216, 85, 76, 14);
-		panel.add(lblIdDoAutor);
-
 		btnAlterar = new JButton("Alterar");
 
 		btnAlterar.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -101,20 +96,20 @@ public class AlteraLivro extends JFrame {
 		textTitle.setColumns(10);
 		textTitle.setBounds(66, 57, 312, 20);
 		panel.add(textTitle);
+		textTitle.setText(Global.getTitle());
 		
 		MaskFormatter price = new MaskFormatter("###,##");
-		price.setPlaceholderCharacter('_');
 		textPrice = new JFormattedTextField(price);
 		textPrice.setFont(new Font("Arial", Font.PLAIN, 12));
 		textPrice.setColumns(10);
 		textPrice.setBounds(66, 82, 86, 20);
 		panel.add(textPrice);
-
-		textIdAuthor = new JTextField();
-		textIdAuthor.setFont(new Font("Arial", Font.PLAIN, 12));
-		textIdAuthor.setColumns(10);
-		textIdAuthor.setBounds(292, 82, 86, 20);
-		panel.add(textIdAuthor);
+		textPrice.setText(Global.getPrice());
+		
+		btnAutores = new JButton("0 Autores");
+		
+		btnAutores.setBounds(228, 82, 89, 23);
+		panel.add(btnAutores);
 
 		btnVoltar = new JButton("Voltar");
 
@@ -140,6 +135,14 @@ public class AlteraLivro extends JFrame {
 		/* AÇÃO PARA CADASTRAR UM LIVRO */
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
+		/*AÇÃO PARA ABRIR OS AUTORES SELECIONADOS*/
+		btnAutores.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
 			}
 		});
 	}

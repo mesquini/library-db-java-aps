@@ -72,6 +72,7 @@ public class AddLivro extends JFrame {
 	 * @throws ParseException
 	 */
 	public AddLivro() throws ParseException {
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(AddLivro.class.getResource("/Img/books.png")));
 		setTitle("Adicionar um novo Livro");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -152,7 +153,8 @@ public class AddLivro extends JFrame {
 		lblVolume.setBounds(299, 60, 46, 14);
 		panel.add(lblVolume);
 
-		MaskFormatter number = new MaskFormatter("###");
+		MaskFormatter number = new MaskFormatter("##");
+		number.setPlaceholderCharacter('_');
 		textVolume = new JFormattedTextField(number);
 		textVolume.setFont(new Font("Arial", Font.PLAIN, 12));
 		textVolume.setBounds(346, 58, 32, 20);
@@ -190,8 +192,9 @@ public class AddLivro extends JFrame {
 
 		/* AÇÃO PARA VOLTAR PARA TELA INICIAL */
 		btnVoltar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {				
+			public void actionPerformed(ActionEvent e) {
 				TelaInicial.main(null);
+				Global.limpaCampos();
 				dispose();
 			}
 		});
@@ -199,10 +202,13 @@ public class AddLivro extends JFrame {
 		/* AÇÃO PARA CADASTRAR UM LIVRO */
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// String editora =
-				// comboBoxPublisher.getItemAt(comboBoxPublisher.getSelectedIndex()).toString();
+				int editoraId = Global.getObjIdPublisher()[comboBoxPublisher.getSelectedIndex()];
+
 				booksController.createBook(textISBN.getText(), textTitle.getText(), textPrice.getText(),
-						Integer.parseInt(textVolume.getText()), "", objAuthors);
+						textVolume.getText(), editoraId, Global.getObjIdAuthors());
+				Global.limpaCampos();
+				limpaCampos();
+
 			}
 		});
 
@@ -221,6 +227,12 @@ public class AddLivro extends JFrame {
 	}
 	
 	public void limpaCampos() {
+		textISBN.setText("");
+		textPrice.setText("");
+		textTitle.setText("");
+		textVolume.setText("");
+		objAuthors = null;
+		btnAuthors.setText("0 Autores");
 		
 	}
 
@@ -232,19 +244,21 @@ public class AddLivro extends JFrame {
 				textPrice.setText(Global.getPrice().toString().replace(".", ","));
 		}
 		textTitle.setText(Global.getTitle());
-		if (textVolume.getText().equals("   ")) {
+		if (textVolume.getText().equals("__")) {
 			if (Global.getValume() != null)
 				textVolume.setText(Global.getValume());
 		}
 		comboBoxPublisher.setSelectedIndex(Global.getEditora());
+
 	}
 
 	public void setValues() {
 		Global.setIsbn(textISBN.getText());
 		Global.setTitle(textTitle.getText());
 		if (!textPrice.getText().equals("___,__"))
-			Global.setPrice(Double.parseDouble(textPrice.getText().replace(",", ".")));		
-		Global.setValume(textVolume.getText());
+			Global.setPrice(textPrice.getText().replace(",", "."));
+		if (!textVolume.getText().equals("__"))
+			Global.setValume(textVolume.getText());
 		Global.setEditora(comboBoxPublisher.getSelectedIndex());
 	}
 }

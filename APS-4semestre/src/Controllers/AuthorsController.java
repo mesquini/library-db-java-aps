@@ -7,7 +7,6 @@ import javax.swing.table.DefaultTableModel;
 
 import DAO.AuthorDAO;
 import Model.Authors;
-import Model.Publishers;
 
 public class AuthorsController {
 

@@ -74,6 +74,7 @@ public class AuthorsCheckBox extends JFrame {
 	 * Create the frame.
 	 */
 	public AuthorsCheckBox() {
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(AuthorsCheckBox.class.getResource("/Img/books.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Autores disponíveis");
@@ -92,10 +93,9 @@ public class AuthorsCheckBox extends JFrame {
 		c.add(scrollPane);
 		tableAuthors.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
-		if(objAuthors != null) {
-			lblCount = new JLabel(objAuthors.length+"");			
-		}
-		else
+		if (objAuthors != null) {
+			lblCount = new JLabel(objAuthors.length + "");
+		} else
 			lblCount = new JLabel("0");
 		lblCount.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblCount.setBounds(216, 66, 46, 14);
@@ -128,9 +128,9 @@ public class AuthorsCheckBox extends JFrame {
 		createTable();
 
 		actionButtons();
-		System.out.println(Global.getValume());
-		if(objAuthors != null) {
-			if(objAuthors.length > 0)
+
+		if (objAuthors != null) {
+			if (objAuthors.length > 0)
 				selectRows(objAuthors);
 		}
 	}
@@ -140,13 +140,18 @@ public class AuthorsCheckBox extends JFrame {
 		/* AÇAÕ PARA ENVIAR OS ATORES SELECIONADOS */
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				int obj[] = tableAuthors.getSelectedRows();
 
 				if (obj.length > 0) {
+					int[] objId = new int[obj.length];
+					for (int i = 0; i < obj.length; i++) {
+						objId[i] = (int) tableAuthors.getValueAt(obj[i], 0);
+					}
+					Global.setObjIdAuthors(objId);
 					AddLivro.main(null, obj);
 					dispose();
-				}else
+				} else
 					JOptionPane.showMessageDialog(null, "Selecione pelo menos um autor", "Falha ao salvar",
 							JOptionPane.WARNING_MESSAGE);
 			}
@@ -164,10 +169,10 @@ public class AuthorsCheckBox extends JFrame {
 		/* AÇÃO PARA VOLTAR PARA TELA DE CADASTRO DE LIVRO */
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(objAuthors != null) {
-					if(objAuthors.length > 0)
+				if (objAuthors != null) {
+					if (objAuthors.length > 0)
 						AddLivro.main(null, objAuthors);
-				}else
+				} else
 					AddLivro.main(null, null);
 				dispose();
 			}
@@ -186,11 +191,11 @@ public class AuthorsCheckBox extends JFrame {
 
 		authorsController.createTableAuthor(modelo, " ");
 	}
-	
+
 	public void selectRows(int[] obj) {
-		
-		for(int i=0; i < obj.length; i++) {
-			tableAuthors.addRowSelectionInterval(obj[i], obj[i]);			
+
+		for (int i = 0; i < obj.length; i++) {
+			tableAuthors.addRowSelectionInterval(obj[i], obj[i]);
 		}
 	}
 }

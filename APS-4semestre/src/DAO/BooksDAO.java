@@ -26,9 +26,9 @@ public class BooksDAO extends DbConnection {
 			while (rs.next()) {
 				book = new Books();
 
-				book.setIsbn(rs.getString(1));
-				book.setPublisher_id(rs.getInt(2));
-				book.setTitle(rs.getString(3));
+				book.setIsbn(rs.getString(2));
+				book.setPublisher_id(rs.getInt(3));
+				book.setTitle(rs.getString(1));
 				book.setPrice(rs.getDouble(4));
 
 				lstBooks.add(book);
