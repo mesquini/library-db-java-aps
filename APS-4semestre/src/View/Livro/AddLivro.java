@@ -193,8 +193,8 @@ public class AddLivro extends JFrame {
 		/* AÇÃO PARA VOLTAR PARA TELA INICIAL */
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TelaInicial.main(null);
 				Global.limpaCampos();
+				TelaInicial.main(null);
 				dispose();
 			}
 		});

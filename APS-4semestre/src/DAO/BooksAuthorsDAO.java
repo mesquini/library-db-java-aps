@@ -52,7 +52,45 @@ public class BooksAuthorsDAO extends DbConnection {
 		}
 
 	}
+	
+	public ArrayList<BooksAuthors> getBooksAuthorsForISBN(String isbn) {
 
+		final String query = "SELECT isbn, author_id  "
+				+ " FROM booksauthors ba "
+				+ " WHERE ba.isbn = (?)";
+
+		ArrayList<BooksAuthors> lstBooksAuthors = new ArrayList<BooksAuthors>();
+		BooksAuthors booksAuthors;
+
+		try (Connection connection = getConexaoMySQL()) {
+
+			PreparedStatement pstm = connection.prepareStatement(query);
+			pstm.setString(1, isbn);
+
+			ResultSet rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				booksAuthors = new BooksAuthors();
+
+				booksAuthors.setIsbn(rs.getString(1));
+				booksAuthors.setAuthor_id(rs.getInt(2));
+
+				lstBooksAuthors.add(booksAuthors);
+			}
+
+			FecharConexao();
+
+			return lstBooksAuthors;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			FecharConexao();
+			return null;
+		}
+
+	}
+	
+	
 	public ArrayList<BooksAuthors> getAllBooksAuthors() {
 
 		final String query = "SELECT b.isbn, b.title, GROUP_CONCAT(a.fname) ,p.name, b.price  "

@@ -38,16 +38,16 @@ public class BooksController {
 		}
 	}
 
-	public void searchIdBook(String linhaSelecionada) {
+	public void searchIdBook(String isbn) {
 
-		booksAuthors = new ArrayList<BooksAuthors>();
 		books = new ArrayList<Books>();
 		books = booksDAO.getAllBooks();
-		booksAuthors = booksAuthorsDAO.getAllBooksAuthors();
 		String price = null;
 
+		/* PESQUISA E MONTA VALORES PARA A TELA DE ALTERAÇÃO */
 		for (Books b : books) {
-			if (b.getIsbn().equals(linhaSelecionada)) {
+			if (b.getIsbn().equals(isbn)) {
+				Global.setIsbn(b.getIsbn());
 				Global.setTitle(b.getTitle());
 
 				price = b.getPrice().toString();
@@ -69,6 +69,15 @@ public class BooksController {
 				Global.setPrice(price);
 			}
 		}
+
+		booksAuthors = new ArrayList<BooksAuthors>();
+		booksAuthors = booksAuthorsDAO.getBooksAuthorsForISBN(isbn);
+		int[] authors = new int[booksAuthors.size()];
+		for (int i = 0; i < booksAuthors.size(); i++) {
+			authors[i] = booksAuthors.get(i).getAuthor_id();
+
+		}
+		Global.setObjIdAuthors(authors);
 	}
 
 	public boolean validaCampos(String isbn, String title, String price, String seq_no, int[] authors) {
@@ -98,6 +107,11 @@ public class BooksController {
 		}
 
 		return true;
+	}
+
+	public void updateBook(String isbn, String title, String price, int[] objIdAuthors) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

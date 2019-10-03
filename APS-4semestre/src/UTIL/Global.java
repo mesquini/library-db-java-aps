@@ -12,6 +12,7 @@ public final class Global {
 	private static int editora;
 	private static int[] objIdAuthors;
 	private static int[] ObjIdPublisher;
+	private static boolean telaAlteracao;
 
 	public static int[] getObjIdPublisher() {
 		return ObjIdPublisher;
@@ -69,6 +70,14 @@ public final class Global {
 		Global.objIdAuthors = objIdAuthors;
 	}
 
+	public static boolean isTelaAlteracao() {
+		return telaAlteracao;
+	}
+
+	public static void setTelaAlteracao(boolean telaAlteracao) {
+		Global.telaAlteracao = telaAlteracao;
+	}
+
 	public static void limpaCampos() {
 		Global.title = null;
 		Global.isbn = null;
@@ -77,6 +86,7 @@ public final class Global {
 		Global.editora = 0;
 		Global.objIdAuthors = null;
 		Global.ObjIdPublisher = null;
+		Global.telaAlteracao = false;
 	}
 
 }

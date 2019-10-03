@@ -7,6 +7,7 @@ import javax.swing.table.DefaultTableModel;
 
 import DAO.AuthorDAO;
 import Model.Authors;
+import UTIL.Global;
 
 public class AuthorsController {
 
@@ -92,6 +93,23 @@ public class AuthorsController {
 		}
 
 		return authorsList;
+	}
+	
+	public int[] getIndexTableAuthors(DefaultTableModel modelo, int[] authorsId) {
+		
+		int rowsTable = modelo.getRowCount();
+		
+		int[] rowsIndex = new int[authorsId.length];
+		
+		for(int i = 0; i < rowsTable; i++) {
+			int id = (int) modelo.getValueAt(i, 0);
+			
+			for(int j = 0; j < authorsId.length; j++) {
+				if(authorsId[j] == id)
+					rowsIndex[j] = i;					
+			}
+		}
+		return rowsIndex;
 	}
 
 }

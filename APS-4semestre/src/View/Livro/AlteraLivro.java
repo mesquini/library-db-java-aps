@@ -1,6 +1,5 @@
 package View.Livro;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -20,16 +19,25 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
+import Controllers.AuthorsController;
+import Controllers.BooksController;
 import UTIL.Global;
 import View.TelaInicial;
+import View.Autor.AuthorsCheckBox;
 
 public class AlteraLivro extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textTitle;
 	private JFormattedTextField textPrice;
 	private JButton btnVoltar, btnAlterar;
 	private JButton btnAutores;
+	
+	private BooksController booksController = new BooksController();
 
 	/**
 	 * Launch the application.
@@ -106,7 +114,7 @@ public class AlteraLivro extends JFrame {
 		panel.add(textPrice);
 		textPrice.setText(Global.getPrice());
 		
-		btnAutores = new JButton("0 Autores");
+		btnAutores = new JButton(Global.getObjIdAuthors().length+" Autores");
 		
 		btnAutores.setBounds(228, 82, 89, 23);
 		panel.add(btnAutores);
@@ -132,17 +140,21 @@ public class AlteraLivro extends JFrame {
 			}
 		});
 
-		/* AÇÃO PARA CADASTRAR UM LIVRO */
+		/* AÇÃO PARA ALTERAR O LIVRO */
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				booksController.updateBook(Global.getIsbn(), textTitle.getText(), textPrice.getText(), Global.getObjIdAuthors());
+				Global.limpaCampos();
 			}
 		});
 		
 		/*AÇÃO PARA ABRIR OS AUTORES SELECIONADOS*/
 		btnAutores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				Global.setTelaAlteracao(true);
+				AuthorsCheckBox.main(null, null);
+				dispose();
 			}
 		});
 	}
