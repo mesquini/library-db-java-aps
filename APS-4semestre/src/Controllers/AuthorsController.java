@@ -57,7 +57,14 @@ public class AuthorsController {
 	public void deleteAuthor(String idAuthor) {
 		int id = Integer.parseInt(idAuthor);
 
-		authorDAO.deleteAuthor(id);
+		int resposta = JOptionPane.showConfirmDialog(null, "Deseja deletar os livros deste autor?", "Confirmação...",
+				JOptionPane.YES_NO_OPTION);
+
+		if (resposta == JOptionPane.YES_OPTION)
+			authorDAO.deleteAuthorBook(id);
+		else
+			authorDAO.deleteAuthor(id);
+
 	}
 
 	public Authors searchIdAuthor(String linhaSelecionada) {
@@ -94,19 +101,19 @@ public class AuthorsController {
 
 		return authorsList;
 	}
-	
+
 	public int[] getIndexTableAuthors(DefaultTableModel modelo, int[] authorsId) {
-		
+
 		int rowsTable = modelo.getRowCount();
-		
+
 		int[] rowsIndex = new int[authorsId.length];
-		
-		for(int i = 0; i < rowsTable; i++) {
+
+		for (int i = 0; i < rowsTable; i++) {
 			int id = (int) modelo.getValueAt(i, 0);
-			
-			for(int j = 0; j < authorsId.length; j++) {
-				if(authorsId[j] == id)
-					rowsIndex[j] = i;					
+
+			for (int j = 0; j < authorsId.length; j++) {
+				if (authorsId[j] == id)
+					rowsIndex[j] = i;
 			}
 		}
 		return rowsIndex;

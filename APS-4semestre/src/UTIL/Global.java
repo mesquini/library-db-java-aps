@@ -1,5 +1,7 @@
 package UTIL;
 
+import java.util.ArrayList;
+
 public final class Global {
 
 	private Global() {
@@ -14,6 +16,8 @@ public final class Global {
 	private static int[] ObjIdPublisher;
 	private static boolean telaAlteracao;
 	private static int searchTelaInicial;
+	private static ArrayList<String> isbnLts;
+	private static ArrayList<Integer> IdPublisherLts;
 
 	public static int[] getObjIdPublisher() {
 		return ObjIdPublisher;
@@ -85,6 +89,22 @@ public final class Global {
 
 	public static void setSearchTelaInicial(int searchTelaInicial) {
 		Global.searchTelaInicial = searchTelaInicial;
+	}
+
+	public static ArrayList<String> getIsbnLts() {
+		return isbnLts;
+	}
+
+	public static void setIsbnLts(ArrayList<String> isbnLts) {
+		Global.isbnLts = isbnLts;
+	}
+
+	public static ArrayList<Integer> getIdPublisherLts() {
+		return IdPublisherLts;
+	}
+
+	public static void setIdPublisherLts(ArrayList<Integer> idPublisherLts) {
+		IdPublisherLts = idPublisherLts;
 	}
 
 	public static void limpaCampos() {

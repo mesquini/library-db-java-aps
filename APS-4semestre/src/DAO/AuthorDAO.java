@@ -9,10 +9,12 @@ import java.util.ArrayList;
 
 import Model.Authors;
 import UTIL.DbConnection;
+import UTIL.Global;
 
 public class AuthorDAO extends DbConnection {
-	
+
 	BooksAuthorsDAO ba = new BooksAuthorsDAO();
+	BooksDAO b = new BooksDAO();
 
 	public ArrayList<Authors> getAllAuthors() {
 
@@ -52,7 +54,7 @@ public class AuthorDAO extends DbConnection {
 		final String query = "SELECT * FROM authors WHERE name like (?) ";
 		Authors author;
 		ArrayList<Authors> lstUser = new ArrayList<Authors>();
-		
+
 		try (Connection connection = getConexaoMySQL()) {
 
 			PreparedStatement pstm = connection.prepareStatement(query);
@@ -63,7 +65,7 @@ public class AuthorDAO extends DbConnection {
 				author.setAuthor_id(Integer.parseInt(rs.getString(1)));
 				author.setName(rs.getString(2));
 				author.setFname(rs.getString(3));
-				
+
 				lstUser.add(author);
 			}
 
@@ -124,29 +126,71 @@ public class AuthorDAO extends DbConnection {
 
 	}
 
-	public void deleteAuthor(int id) {		
+	public void deleteAuthor(int id) {
 
 		try (Connection con = getConexaoMySQL()) {
-			
-			final String delete = "DELETE FROM authors WHERE author_id = ?";		
-			
-			if(ba.checkAuthorExist(id)) {
-				
+
+			final String delete = "DELETE FROM authors WHERE author_id = ?";
+
+			if (ba.checkAuthorExist(id)) {
+
 				final String deleteBa = "DELETE FROM booksauthors WHERE author_id = ?";
-				
+
 				PreparedStatement pstm = con.prepareStatement(deleteBa);
-				
+
 				pstm.setInt(1, id);
-				
+
 				pstm.execute();
+
+
+				Global.limpaCampos();
 			}
-			
+
 			PreparedStatement pstm = con.prepareStatement(delete);
 
 			pstm.setInt(1, id);
 
 			pstm.execute();
-			
+
+			FecharConexao();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			FecharConexao();
+		}
+
+	}
+
+	public void deleteAuthorBook(int id) {
+
+		try (Connection con = getConexaoMySQL()) {
+
+			final String delete = "DELETE FROM authors WHERE author_id = ?";
+
+			if (ba.checkAuthorExist(id)) {
+				
+				for(int i = 0; i < Global.getIsbnLts().size(); i++) {
+					
+					final String deleteBa = "DELETE FROM booksauthors WHERE isbn = ?";
+					
+					PreparedStatement pstm = con.prepareStatement(deleteBa);
+					
+					pstm.setString(1, Global.getIsbnLts().get(i));
+					
+					pstm.execute();
+					
+					b.deleteBook(Global.getIsbnLts().get(i));
+				}
+
+
+				Global.limpaCampos();
+			}
+
+			PreparedStatement pstm = con.prepareStatement(delete);
+
+			pstm.setInt(1, id);
+
+			pstm.execute();
 
 			FecharConexao();
 

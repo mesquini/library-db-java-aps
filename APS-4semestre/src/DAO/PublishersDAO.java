@@ -9,9 +9,10 @@ import java.util.ArrayList;
 
 import Model.Publishers;
 import UTIL.DbConnection;
+import UTIL.Global;
 
-public class PublishersDAO extends DbConnection{
-	
+public class PublishersDAO extends DbConnection {
+
 	public ArrayList<Publishers> getAllPublishers() {
 
 		ArrayList<Publishers> lstPublisher = new ArrayList<Publishers>();
@@ -45,10 +46,10 @@ public class PublishersDAO extends DbConnection{
 
 	}
 
-	public ArrayList<Publishers>  searchPublisher(String name) {
-		
+	public ArrayList<Publishers> searchPublisher(String name) {
+
 		final String query = "SELECT * FROM publishers WHERE name like (?)";
-		
+
 		ArrayList<Publishers> lstPublisher = new ArrayList<Publishers>();
 		Publishers publisher;
 
@@ -60,11 +61,11 @@ public class PublishersDAO extends DbConnection{
 			while (rs.next()) {
 
 				publisher = new Publishers();
-				
+
 				publisher.setPublisher_id(Integer.parseInt(rs.getString(1)));
 				publisher.setName(rs.getString(2));
 				publisher.setUrl(rs.getString(3));
-				
+
 				lstPublisher.add(publisher);
 			}
 
@@ -130,6 +131,49 @@ public class PublishersDAO extends DbConnection{
 		final String delete = "DELETE FROM publishers WHERE publisher_id = ?";
 
 		try (Connection con = getConexaoMySQL()) {
+
+			PreparedStatement pstm = con.prepareStatement(delete);
+
+			pstm.setInt(1, id);
+
+			pstm.execute();
+
+			FecharConexao();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			FecharConexao();
+		}
+
+	}
+
+	public void deletePublisherBooks(int id) {
+
+		final String delete = "DELETE FROM publishers WHERE publisher_id = ?";
+
+		try (Connection con = getConexaoMySQL()) {
+
+			for (int i = 0; i < Global.getIsbnLts().size(); i++) {
+				final String delete2 = "DELETE FROM booksauthors WHERE isbn = ?";
+				
+				PreparedStatement pstm = con.prepareStatement(delete2);
+
+				pstm.setString(1, Global.getIsbnLts().get(i));
+
+				pstm.execute();
+
+			}
+
+			for (int i = 0; i < Global.getIdPublisherLts().size(); i++) {
+				final String delete2 = "DELETE FROM books WHERE publisher_id = ?";
+				
+				PreparedStatement pstm = con.prepareStatement(delete2);
+
+				pstm.setInt(1, Global.getIdPublisherLts().get(i));
+
+				pstm.execute();
+
+			}
 
 			PreparedStatement pstm = con.prepareStatement(delete);
 

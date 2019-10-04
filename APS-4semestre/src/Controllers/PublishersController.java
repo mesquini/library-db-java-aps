@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-import DAO.PublishersDAO;
+import DAO.*;
 import Model.Publishers;
 import UTIL.Global;
 
@@ -13,6 +13,7 @@ public class PublishersController {
 
 	static ArrayList<Publishers> publishers;
 	static PublishersDAO publishersDAO = new PublishersDAO();
+	static BooksDAO booksDAO = new BooksDAO();
 
 	public DefaultTableModel createTablePublisher(DefaultTableModel modelo, String name) {
 		modelo.setNumRows(0);
@@ -68,7 +69,20 @@ public class PublishersController {
 	public void deletePublisher(String idPublisher) {
 		int id = Integer.parseInt(idPublisher);
 
-		publishersDAO.deletePublisher(id);
+		boolean rest = booksDAO.searchBook(id);// VERIFICA SE EXISTE ALGUM LIVRO VINCULADO COM A EDITORA
+
+		if (rest) {
+			int resposta = JOptionPane.showConfirmDialog(null, "Deseja deletar os livros desta Editora?",
+					"Confirmação...", JOptionPane.YES_NO_OPTION);
+
+			if (resposta == JOptionPane.YES_OPTION)
+				publishersDAO.deletePublisherBooks(id);// FAZ O DELETE EM 3 TABELAS, BOOKSAUTHORS, BOOKS E PUBLISHERS
+
+		} else
+			publishersDAO.deletePublisher(id);// DELETA APENAS A EDITORA
+
+		Global.limpaCampos();
+
 	}
 
 	public Publishers searchID(String idPublisher) {
@@ -100,12 +114,12 @@ public class PublishersController {
 		ArrayList<Publishers> publishers = publishersDAO.getAllPublishers();
 		String[] publishersList = new String[publishers.size()];
 		int[] objIdPublisher = new int[publishers.size()];
-		
+
 		for (int ii = 0; ii < publishersList.length; ii++) {
 			publishersList[ii] = publishers.get(ii).getName();
 			objIdPublisher[ii] = publishers.get(ii).getPublisher_id();
 		}
-		
+
 		Global.setObjIdPublisher(objIdPublisher);
 
 		return publishersList;

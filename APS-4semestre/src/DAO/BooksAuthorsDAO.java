@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import Model.BooksAuthors;
 import UTIL.DbConnection;
+import UTIL.Global;
 
 public class BooksAuthorsDAO extends DbConnection {
 
@@ -52,12 +53,10 @@ public class BooksAuthorsDAO extends DbConnection {
 		}
 
 	}
-	
+
 	public ArrayList<BooksAuthors> getBooksAuthorsForISBN(String isbn) {
 
-		final String query = "SELECT isbn, author_id  "
-				+ " FROM booksauthors ba "
-				+ " WHERE ba.isbn = (?)";
+		final String query = "SELECT isbn, author_id  " + " FROM booksauthors ba " + " WHERE ba.isbn = (?)";
 
 		ArrayList<BooksAuthors> lstBooksAuthors = new ArrayList<BooksAuthors>();
 		BooksAuthors booksAuthors;
@@ -89,8 +88,7 @@ public class BooksAuthorsDAO extends DbConnection {
 		}
 
 	}
-	
-	
+
 	public ArrayList<BooksAuthors> getAllBooksAuthors() {
 
 		final String query = "SELECT b.isbn, b.title, GROUP_CONCAT(a.fname) ,p.name, b.price  "
@@ -140,7 +138,11 @@ public class BooksAuthorsDAO extends DbConnection {
 
 			PreparedStatement pstm = connection.prepareStatement(query);
 
+			pstm.setInt(1, id);
+
 			ResultSet rs = pstm.executeQuery();
+
+			ArrayList<String> isbnLts = new ArrayList<String>();
 
 			if (rs != null) {
 
@@ -150,7 +152,10 @@ public class BooksAuthorsDAO extends DbConnection {
 					booksAuthors.setAuthor_id(rs.getInt(2));
 					booksAuthors.setSeq_no(rs.getInt(3));
 
+					isbnLts.add(rs.getString(1));
 				}
+
+				Global.setIsbnLts(isbnLts);
 
 				FecharConexao();
 

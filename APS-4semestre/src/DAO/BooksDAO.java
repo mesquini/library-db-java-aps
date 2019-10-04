@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import Model.Books;
 import UTIL.DbConnection;
+import UTIL.Global;
 
 public class BooksDAO extends DbConnection {
 	public ArrayList<Books> getAllBooks() {
@@ -45,32 +46,40 @@ public class BooksDAO extends DbConnection {
 
 	}
 
-	public Books searchBook(String title) {
+	public boolean searchBook(int idPublisher) {
 
-		final String query = "SELECT * FROM books WHERE title = ?";
-		Books book = new Books();
+		final String query = "SELECT * FROM books WHERE publisher_id = ?";
+		
+		ArrayList<Integer> idList = new ArrayList<Integer>();
+		ArrayList<String> isbnList = new ArrayList<String>();
 
 		try (Connection connection = getConexaoMySQL()) {
 
 			PreparedStatement pstm = connection.prepareStatement(query);
-			pstm.setString(1, title);
+			
+			pstm.setInt(1, idPublisher);
+			
 			ResultSet rs = pstm.executeQuery();
+			
 			while (rs.next()) {
-
-				book.setIsbn(rs.getString(1));
-				book.setPublisher_id(rs.getInt(2));
-				book.setTitle(rs.getString(3));
-				book.setPrice(rs.getDouble(4));
+				isbnList.add(rs.getString(2));
+				idList.add(rs.getInt(3));
 			}
-
+			
 			FecharConexao();
-
-			return book;
+			
+			Global.setIsbnLts(isbnList);
+			Global.setIdPublisherLts(idList);
+			
+			if(idList.size() > 0)
+				return true;
+			else
+				return false;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 			FecharConexao();
-			return null;
+			return false;
 		}
 
 	}

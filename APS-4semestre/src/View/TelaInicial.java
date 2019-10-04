@@ -167,6 +167,7 @@ public class TelaInicial extends JFrame {
 
 	private static String search = null;
 
+	// FUNÇÃO COM AS AÇÕES DOS BOTÕES
 	public void ActionButton() {
 
 		/* AÇÃO PARA BUSCAR NO BANCO E MONTAR A TABELA */
@@ -198,7 +199,6 @@ public class TelaInicial extends JFrame {
 					if (resposta == JOptionPane.YES_OPTION) {
 
 						String linhaSelecionada = table.getValueAt(table.getSelectedRow(), 0).toString();
-						modelo.removeRow(table.getSelectedRow());
 						if (search.equals("Autor")) {
 							authorsController.deleteAuthor(linhaSelecionada);
 						} else if (search.equals("Livro")) {
@@ -207,6 +207,7 @@ public class TelaInicial extends JFrame {
 							publishersController.deletePublisher(linhaSelecionada);
 						}
 
+						modelo.removeRow(table.getSelectedRow());
 						JOptionPane.showMessageDialog(null, "Excluido com sucesso.");
 					}
 				} else
@@ -268,7 +269,8 @@ public class TelaInicial extends JFrame {
 			}
 		});
 	}
-
+	
+	// FUNÇÃO PARA CRIAR AS TABELAS, DEPENDENDO DO TIPO QUE O USUARIO ESCOLHER NO COMBOBOX
 	public void creatTable() {
 
 		if (search == "Autor") {
@@ -317,7 +319,7 @@ public class TelaInicial extends JFrame {
 		}
 
 	}
-
+	// FUNÇÃO PARA LIMPAR AS LINHAS DA TABELA
 	public void cleanTable() {
 		while (modelo.getRowCount() > 0 && modelo.getColumnCount() > 0) {
 
