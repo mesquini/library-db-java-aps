@@ -109,8 +109,12 @@ public class BooksController {
 		return true;
 	}
 
-	public void updateBook(String isbn, String title, String price, int[] objIdAuthors) {
-		// TODO Auto-generated method stub
+	public void updateBook(String title, String price) {
+		
+		booksDAO.updateBook(Global.getIsbn(), title, Double.parseDouble(price.replace(",", ".")));		
+		
+		JOptionPane.showMessageDialog(null, "Livro alterado com sucesso!", "Livro Alteção",
+				JOptionPane.INFORMATION_MESSAGE);
 
 	}
 

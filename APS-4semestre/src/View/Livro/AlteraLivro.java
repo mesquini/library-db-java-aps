@@ -35,7 +35,6 @@ public class AlteraLivro extends JFrame {
 	private JTextField textTitle;
 	private JFormattedTextField textPrice;
 	private JButton btnVoltar, btnAlterar;
-	private JButton btnAutores;
 	
 	private BooksController booksController = new BooksController();
 
@@ -61,10 +60,11 @@ public class AlteraLivro extends JFrame {
 	 * @throws ParseException 
 	 */
 	public AlteraLivro() throws ParseException {
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(AddLivro.class.getResource("/Img/books.png")));
 		setTitle("Adicionar um novo Livro");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 436, 291);
+		setBounds(100, 100, 409, 279);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -72,7 +72,7 @@ public class AlteraLivro extends JFrame {
 
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.LIGHT_GRAY);
-		panel.setBounds(10, 37, 400, 208);
+		panel.setBounds(10, 37, 383, 202);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -113,11 +113,6 @@ public class AlteraLivro extends JFrame {
 		textPrice.setBounds(66, 82, 86, 20);
 		panel.add(textPrice);
 		textPrice.setText(Global.getPrice());
-		
-		btnAutores = new JButton(Global.getObjIdAuthors().length+" Autores");
-		
-		btnAutores.setBounds(228, 82, 89, 23);
-		panel.add(btnAutores);
 
 		btnVoltar = new JButton("Voltar");
 
@@ -135,6 +130,7 @@ public class AlteraLivro extends JFrame {
 		/* AÇÃO PARA VOLTAR PARA TELA INICIAL */
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Global.limpaCampos();
 				TelaInicial.main(null);
 				dispose();
 			}
@@ -144,19 +140,12 @@ public class AlteraLivro extends JFrame {
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				booksController.updateBook(Global.getIsbn(), textTitle.getText(), textPrice.getText(), Global.getObjIdAuthors());
+				booksController.updateBook(textTitle.getText(), textPrice.getText());
 				Global.limpaCampos();
-			}
-		});
-		
-		/*AÇÃO PARA ABRIR OS AUTORES SELECIONADOS*/
-		btnAutores.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Global.setTelaAlteracao(true);
-				AuthorsCheckBox.main(null, null);
+				TelaInicial.main(null);
 				dispose();
 			}
 		});
-	}
+	}	
 
 }

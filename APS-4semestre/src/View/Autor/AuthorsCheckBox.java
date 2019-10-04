@@ -67,8 +67,8 @@ public class AuthorsCheckBox extends JFrame {
 					e.printStackTrace();
 				}
 			}
-		});		
-		if(!Global.isTelaAlteracao())
+		});
+		if (!Global.isTelaAlteracao())
 			objAuthors = objAuthorsIDs;
 	}
 
@@ -99,7 +99,7 @@ public class AuthorsCheckBox extends JFrame {
 			lblCount = new JLabel(objAuthors.length + "");
 		} else
 			lblCount = new JLabel("0");
-		
+
 		lblCount.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblCount.setBounds(216, 66, 46, 14);
 		getContentPane().add(lblCount);
@@ -176,8 +176,8 @@ public class AuthorsCheckBox extends JFrame {
 		/* AÇÃO PARA VOLTAR PARA TELA DE CADASTRO DE LIVRO */
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				if (Global.isTelaAlteracao())					
+
+				if (Global.isTelaAlteracao())
 					AlteraLivro.main(null);
 				else if (objAuthors != null) {
 					if (objAuthors.length > 0)
@@ -192,6 +192,8 @@ public class AuthorsCheckBox extends JFrame {
 
 	public void createTable() {
 
+		cleanTable();
+
 		modelo.addColumn("ID");
 		modelo.addColumn("Nome");
 		modelo.addColumn("Sobrenome");
@@ -201,10 +203,17 @@ public class AuthorsCheckBox extends JFrame {
 		tableAuthors.getColumnModel().getColumn(2).setPreferredWidth(50);
 
 		authorsController.createTableAuthor(modelo, " ");
-		
+
 		if (Global.isTelaAlteracao())
-			objAuthors = authorsController.getIndexTableAuthors(modelo, Global.getObjIdAuthors());	
-		
+			objAuthors = authorsController.getIndexTableAuthors(modelo, Global.getObjIdAuthors());
+
+	}
+
+	public void cleanTable() {
+		while (modelo.getRowCount() > 0 && modelo.getColumnCount() > 0) {
+
+			tableAuthors.setModel(modelo = new DefaultTableModel());
+		}
 	}
 
 	public void selectRows(int[] obj) {

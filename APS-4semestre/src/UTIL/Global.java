@@ -13,6 +13,7 @@ public final class Global {
 	private static int[] objIdAuthors;
 	private static int[] ObjIdPublisher;
 	private static boolean telaAlteracao;
+	private static int searchTelaInicial;
 
 	public static int[] getObjIdPublisher() {
 		return ObjIdPublisher;
@@ -76,6 +77,14 @@ public final class Global {
 
 	public static void setTelaAlteracao(boolean telaAlteracao) {
 		Global.telaAlteracao = telaAlteracao;
+	}
+
+	public static int getSearchTelaInicial() {
+		return searchTelaInicial;
+	}
+
+	public static void setSearchTelaInicial(int searchTelaInicial) {
+		Global.searchTelaInicial = searchTelaInicial;
 	}
 
 	public static void limpaCampos() {

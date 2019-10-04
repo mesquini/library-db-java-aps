@@ -11,6 +11,7 @@ import Controllers.AuthorsController;
 import Controllers.BooksAuthorsController;
 import Controllers.BooksController;
 import Controllers.PublishersController;
+import UTIL.Global;
 import View.Editora.*;
 import View.Livro.*;
 import View.Autor.*;
@@ -154,8 +155,14 @@ public class TelaInicial extends JFrame {
 		scrollPane.setBounds(10, 94, 780, 353);
 		contentPane.add(scrollPane);
 
-		ActionButton();
+		if (Global.getSearchTelaInicial() > 0) {
 
+			comboBox.setSelectedIndex(Global.getSearchTelaInicial());
+			search = comboBox.getItemAt(Global.getSearchTelaInicial()).toString();
+			creatTable();
+		}
+
+		ActionButton();
 	}
 
 	private static String search = null;
@@ -166,8 +173,8 @@ public class TelaInicial extends JFrame {
 		btBusca.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (comboBox.getSelectedIndex() != 0) {
-					search = comboBox.getItemAt(comboBox.getSelectedIndex()).toString();
-
+					Global.setSearchTelaInicial(comboBox.getSelectedIndex());
+					search = comboBox.getItemAt(Global.getSearchTelaInicial()).toString();
 					creatTable();
 
 					txtBusca.setText("");

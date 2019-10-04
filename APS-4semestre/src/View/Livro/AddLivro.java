@@ -21,7 +21,6 @@ import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import java.awt.Color;
-import java.awt.Dimension;
 
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
@@ -225,7 +224,7 @@ public class AddLivro extends JFrame {
 			}
 		});
 	}
-	
+
 	public void limpaCampos() {
 		textISBN.setText("");
 		textPrice.setText("");
@@ -233,7 +232,7 @@ public class AddLivro extends JFrame {
 		textVolume.setText("");
 		objAuthors = null;
 		btnAuthors.setText("0 Autores");
-		
+
 	}
 
 	public void getValues() {
