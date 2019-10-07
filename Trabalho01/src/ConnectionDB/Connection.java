@@ -28,12 +28,10 @@ public class Connection {
 
 			// Configurando a nossa conexão com um banco de dados//
 
-			final String USER = "root";
-			final String PASS = "root";
-			final String DATABASE = "/library";
-			final String serverName = "localhost";
-			final String complements = "?autoReconnect=true&useSSL=false";
-			final String URL = "jdbc:mysql://" + serverName + DATABASE + complements;
+			final String USER = "postgres";
+			final String PASS = "mesquini";
+			final String DATABASE = "library";
+			final String URL = "jdbc:postgresql:" + DATABASE;
 
 			connection = DriverManager.getConnection(URL, USER, PASS);
 

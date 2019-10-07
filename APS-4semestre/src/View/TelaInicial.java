@@ -269,56 +269,67 @@ public class TelaInicial extends JFrame {
 			}
 		});
 	}
-	
-	// FUNÇÃO PARA CRIAR AS TABELAS, DEPENDENDO DO TIPO QUE O USUARIO ESCOLHER NO COMBOBOX
+
+	// FUNÇÃO PARA CRIAR AS TABELAS, DEPENDENDO DO TIPO QUE O USUARIO ESCOLHER NO
+	// COMBOBOX
 	public void creatTable() {
 
 		if (search == "Autor") {
 
 			cleanTable();
 
-			modelo.addColumn("ID");
-			modelo.addColumn("Nome");
-			modelo.addColumn("Sobrenome");
+			if (modelo.getColumnCount() == 0) {
 
-			table.getColumnModel().getColumn(0).setPreferredWidth(10);
-			table.getColumnModel().getColumn(1).setPreferredWidth(100);
-			table.getColumnModel().getColumn(2).setPreferredWidth(100);
+				modelo.addColumn("ID");
+				modelo.addColumn("Nome");
+				modelo.addColumn("Sobrenome");
+
+				table.getColumnModel().getColumn(0).setPreferredWidth(10);
+				table.getColumnModel().getColumn(1).setPreferredWidth(100);
+				table.getColumnModel().getColumn(2).setPreferredWidth(100);
+			}
 
 			authorsController.createTableAuthor(modelo, txtBusca.getText());
 
 		} else if (search == "Livro") {
 			cleanTable();
-
-			modelo.addColumn("ISBN");
-			modelo.addColumn("Titulo");
-			modelo.addColumn("Autor(es)");
-			modelo.addColumn("Editora(s)");
-			modelo.addColumn("Preço");
-
-			table.getColumnModel().getColumn(0).setPreferredWidth(10);
-			table.getColumnModel().getColumn(1).setPreferredWidth(120);
-			table.getColumnModel().getColumn(2).setPreferredWidth(50);
-			table.getColumnModel().getColumn(3).setPreferredWidth(50);
-			table.getColumnModel().getColumn(4).setPreferredWidth(10);
+			
+			if (modelo.getColumnCount() == 0) {
+				
+				modelo.addColumn("ISBN");
+				modelo.addColumn("Titulo");
+				modelo.addColumn("Autor(es)");
+				modelo.addColumn("Editora(s)");
+				modelo.addColumn("Preço");
+				
+				table.getColumnModel().getColumn(0).setPreferredWidth(10);
+				table.getColumnModel().getColumn(1).setPreferredWidth(120);
+				table.getColumnModel().getColumn(2).setPreferredWidth(50);
+				table.getColumnModel().getColumn(3).setPreferredWidth(50);
+				table.getColumnModel().getColumn(4).setPreferredWidth(10);
+			}
 
 			booksAuthorsController.createTableBooks(modelo, txtBusca.getText());
 
 		} else {
 			cleanTable();
-
-			modelo.addColumn("ID");
-			modelo.addColumn("Nome");
-			modelo.addColumn("URL");
-
-			table.getColumnModel().getColumn(0).setPreferredWidth(10);
-			table.getColumnModel().getColumn(1).setPreferredWidth(120);
-			table.getColumnModel().getColumn(2).setPreferredWidth(100);
+			
+			if (modelo.getColumnCount() == 0) {
+				
+				modelo.addColumn("ID");
+				modelo.addColumn("Nome");
+				modelo.addColumn("URL");
+				
+				table.getColumnModel().getColumn(0).setPreferredWidth(10);
+				table.getColumnModel().getColumn(1).setPreferredWidth(120);
+				table.getColumnModel().getColumn(2).setPreferredWidth(100);
+			}
 
 			publishersController.createTablePublisher(modelo, txtBusca.getText());
 		}
 
 	}
+
 	// FUNÇÃO PARA LIMPAR AS LINHAS DA TABELA
 	public void cleanTable() {
 		while (modelo.getRowCount() > 0 && modelo.getColumnCount() > 0) {

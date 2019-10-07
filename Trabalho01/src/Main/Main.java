@@ -8,7 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import ConnectionDB.Commands;
-import DTO.BooksAuthors;
+import Model.BooksAuthors;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -24,11 +24,17 @@ import java.awt.Toolkit;
 
 public class Main extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private JPanel contentPane;
 	private static JTextField txtTitle;
 	private JTable table;
 	static Commands c = new Commands();
 	static ArrayList<BooksAuthors> booksAuthors;
+	JButton btnSearch;
 	private DefaultTableModel modelo = new DefaultTableModel();
 
 	/**
@@ -39,6 +45,7 @@ public class Main extends JFrame {
 			public void run() {
 				try {
 					Main frame = new Main();
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -72,17 +79,8 @@ public class Main extends JFrame {
 		contentPane.add(txtTitle);
 		txtTitle.setColumns(10);
 		
-		JButton btnSearch = new JButton("");
-		btnSearch.setIcon(new ImageIcon(Main.class.getResource("/Img/search.png")));
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				pesquisar(modelo);
-				txtTitle.setText(null);
-				
-					
-			}
-		});
+		btnSearch = new JButton("");
+		
 		btnSearch.setMnemonic('s');
 		btnSearch.setToolTipText("Pesquisar livro");
 		btnSearch.setBounds(459, 5, 31, 23);
@@ -90,6 +88,8 @@ public class Main extends JFrame {
 		
 		
 		table = new JTable(modelo);
+		table.setBounds(10, 36, 480, 246);
+		contentPane.add(table);
 		
 		modelo.addColumn("Titulo");
         modelo.addColumn("Autor(es)");
@@ -103,21 +103,36 @@ public class Main extends JFrame {
         table.getColumnModel().getColumn(2)
         .setPreferredWidth(50);
         table.getColumnModel().getColumn(3)
-        .setPreferredWidth(30);
+        .setPreferredWidth(10);
         
-		table.setBounds(10, 36, 480, 246);
-		contentPane.add(table);
 		
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(10, 36, 592, 243);
+		scrollPane.setBounds(10, 36, 602, 256);
 		contentPane.add(scrollPane);
+		
+		actionButtons();
+	}
+	
+	public void actionButtons() {
+		
+		/*AÇAÕ PARA BUSCAR OS LIVROS*/
+		btnSearch.setIcon(new ImageIcon(Main.class.getResource("/Img/search.png")));
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				pesquisar(modelo);
+				txtTitle.setText(null);
+				
+					
+			}
+		});
 	}
 
 	public static void pesquisar(DefaultTableModel modelo) {
         modelo.setNumRows(0);
         
         booksAuthors = new ArrayList<BooksAuthors>();
-		booksAuthors = c.searchBooksAuthors(txtTitle.getText());
+		booksAuthors = c.searchBooksAuthors(txtTitle.getText().trim());
 		
 		for(BooksAuthors ba : booksAuthors) {
 			modelo.addRow(new Object[] {

@@ -15,19 +15,19 @@ public class PublishersController {
 	static PublishersDAO publishersDAO = new PublishersDAO();
 	static BooksDAO booksDAO = new BooksDAO();
 
-	public DefaultTableModel createTablePublisher(DefaultTableModel modelo, String name) {
+	public void createTablePublisher(DefaultTableModel modelo, String name) {
 		modelo.setNumRows(0);
 
 		publishers = new ArrayList<Publishers>();
 
 		publishers = name != " " ? publishersDAO.searchPublisher(name) : publishersDAO.getAllPublishers();
 
-		for (Publishers a : publishers) {
-			modelo.addRow(new Object[] { a.getPublisher_id(), a.getName(), a.getUrl() });
-		}
-
-		return modelo;
-
+		if (publishers.size() > 0)
+			for (Publishers a : publishers) {
+				modelo.addRow(new Object[] { a.getPublisher_id(), a.getName(), a.getUrl() });
+			}
+		else
+			JOptionPane.showMessageDialog(null, "Não foi possivel localizar essa Editora", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public boolean createPublisher(String name, String url) {

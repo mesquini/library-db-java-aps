@@ -7,7 +7,6 @@ import javax.swing.table.DefaultTableModel;
 
 import DAO.AuthorDAO;
 import Model.Authors;
-import UTIL.Global;
 
 public class AuthorsController {
 
@@ -22,9 +21,13 @@ public class AuthorsController {
 
 		authors = name != " " ? authorDAO.searchAuthor(name) : authorDAO.getAllAuthors();
 
-		for (Authors a : authors) {
-			modelo.addRow(new Object[] { a.getAuthor_id(), a.getName(), a.getFname() });
-		}
+		if(authors.size() > 0)
+			for (Authors a : authors) {
+				modelo.addRow(new Object[] { a.getAuthor_id(), a.getName(), a.getFname() });
+			}
+		else			
+			JOptionPane.showMessageDialog(null, "Nome não encotrado!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+		
 
 	}
 
