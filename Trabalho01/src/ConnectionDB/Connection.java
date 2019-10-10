@@ -19,13 +19,6 @@ public class Connection {
 		java.sql.Connection connection = null; // atributo do tipo Connection
 
 		try {
-
-			// Carregando o JDBC Driver padrão
-
-			String driverName = "com.mysql.jdbc.Driver";
-
-			Class.forName(driverName);
-
 			// Configurando a nossa conexão com um banco de dados//
 
 			final String USER = "postgres";
@@ -48,12 +41,6 @@ public class Connection {
 			}
 
 			return connection;
-
-		} catch (ClassNotFoundException e) { // Driver não encontrado
-
-			System.out.println("O driver expecificado nao foi encontrado.");
-
-			return null;
 
 		} catch (SQLException e) {
 
