@@ -7,6 +7,7 @@ import javax.swing.table.DefaultTableModel;
 
 import DAO.AuthorDAO;
 import Model.Authors;
+import UTIL.Global;
 
 public class AuthorsController {
 
@@ -20,14 +21,15 @@ public class AuthorsController {
 		authors = new ArrayList<Authors>();
 
 		authors = name != " " ? authorDAO.searchAuthor(name) : authorDAO.getAllAuthors();
-
-		if(authors.size() > 0)
-			for (Authors a : authors) {
-				modelo.addRow(new Object[] { a.getAuthor_id(), a.getName(), a.getFname() });
+		int ObjIdAuthors[] = new int[authors.size()];
+		if (authors.size() > 0)
+			for (int i = 0; i < authors.size(); i++) {
+				modelo.addRow(new Object[] { authors.get(i).getName(), authors.get(i).getFname() });
+				ObjIdAuthors[i] = authors.get(i).getAuthor_id();
 			}
-		else			
+		else
 			JOptionPane.showMessageDialog(null, "Nome não encotrado!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-		
+		Global.setObjIdAuthors(ObjIdAuthors);
 
 	}
 
@@ -57,8 +59,8 @@ public class AuthorsController {
 		return true;
 	}
 
-	public void deleteAuthor(String idAuthor) {
-		int id = Integer.parseInt(idAuthor);
+	public void deleteAuthor(int linhaSelecionada) {
+		int id = Global.getObjIdAuthors()[linhaSelecionada];
 
 		int resposta = JOptionPane.showConfirmDialog(null, "Deseja deletar os livros deste autor?", "Confirmação...",
 				JOptionPane.YES_NO_OPTION);
@@ -70,8 +72,8 @@ public class AuthorsController {
 
 	}
 
-	public Authors searchIdAuthor(String linhaSelecionada) {
-		int id = Integer.parseInt(linhaSelecionada);
+	public Authors searchIdAuthor(int linhaSelecionada) {
+		int id = Global.getObjIdAuthors()[linhaSelecionada];
 
 		authors = authorDAO.getAllAuthors();
 

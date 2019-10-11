@@ -2,22 +2,35 @@ package UTIL;
 
 import java.util.ArrayList;
 
+import Model.BooksAuthors;
+import Model.Publishers;
+
 public final class Global {
 
 	private Global() {
 	};
 
+	private static boolean telaAlteracao;
+
 	private static String title;
 	private static String isbn;
 	private static String price;
 	private static String valume;
-	private static int editora;
+
+	private static String[] ObjIdBooks;
+	private static String[] ObjNameAuthors;
+
 	private static int[] objIdAuthors;
+	private static int[] objIdAuthorsSelected;
 	private static int[] ObjIdPublisher;
-	private static boolean telaAlteracao;
+
 	private static int searchTelaInicial;
+	private static int editora;
+
 	private static ArrayList<String> isbnLts;
 	private static ArrayList<Integer> IdPublisherLts;
+
+	private static Publishers publisher;
 
 	public static int[] getObjIdPublisher() {
 		return ObjIdPublisher;
@@ -107,6 +120,38 @@ public final class Global {
 		IdPublisherLts = idPublisherLts;
 	}
 
+	public static String[] getObjIdBooks() {
+		return ObjIdBooks;
+	}
+
+	public static void setObjIdBooks(String[] objIdBooks) {
+		ObjIdBooks = objIdBooks;
+	}
+
+	public static int[] getObjIdAuthorsSelected() {
+		return objIdAuthorsSelected;
+	}
+
+	public static void setObjIdAuthorsSelected(int[] objIdAuthorsSelected) {
+		Global.objIdAuthorsSelected = objIdAuthorsSelected;
+	}
+
+	public static Publishers getPublisher() {
+		return publisher;
+	}
+
+	public static void setPublisher(Publishers publisher) {
+		Global.publisher = publisher;
+	}
+
+	public static String[] getObjNameAuthors() {
+		return ObjNameAuthors;
+	}
+
+	public static void setObjNameAuthors(String[] objNameAuthors) {
+		ObjNameAuthors = objNameAuthors;
+	}
+
 	public static void limpaCampos() {
 		Global.title = null;
 		Global.isbn = null;
@@ -115,7 +160,11 @@ public final class Global {
 		Global.editora = 0;
 		Global.objIdAuthors = null;
 		Global.ObjIdPublisher = null;
+		Global.objIdAuthorsSelected = null;
+		Global.ObjNameAuthors = null;
+		Global.ObjIdBooks = null;
 		Global.telaAlteracao = false;
+		Global.publisher = null;
 	}
 
 }

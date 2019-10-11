@@ -81,6 +81,37 @@ public class AuthorDAO extends DbConnection {
 
 	}
 
+	public Authors searchAuthor(int id) {
+
+		final String query = "SELECT * FROM authors WHERE author_id = ? ";
+
+		Authors author = new Authors();
+
+		try (Connection connection = getConexaoMySQL()) {
+
+			PreparedStatement pstm = connection.prepareStatement(query);
+			pstm.setInt(1, id);
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next()) {
+
+				author.setAuthor_id(rs.getInt(1));
+				author.setName(rs.getString(2));
+				author.setFname(rs.getString(3));
+
+			}
+
+			FecharConexao();
+
+			return author;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			FecharConexao();
+			return null;
+		}
+
+	}
+
 	public void addAuthor(String name, String fname) {
 
 		final String insert = "INSERT INTO authors (name, fname) VALUES (?,?)";
@@ -142,7 +173,6 @@ public class AuthorDAO extends DbConnection {
 
 				pstm.execute();
 
-
 				Global.limpaCampos();
 			}
 
@@ -168,20 +198,19 @@ public class AuthorDAO extends DbConnection {
 			final String delete = "DELETE FROM authors WHERE author_id = ?";
 
 			if (ba.checkAuthorExist(id)) {
-				
-				for(int i = 0; i < Global.getIsbnLts().size(); i++) {
-					
+
+				for (int i = 0; i < Global.getIsbnLts().size(); i++) {
+
 					final String deleteBa = "DELETE FROM booksauthors WHERE isbn = ?";
-					
+
 					PreparedStatement pstm = con.prepareStatement(deleteBa);
-					
+
 					pstm.setString(1, Global.getIsbnLts().get(i));
-					
+
 					pstm.execute();
-					
+
 					b.deleteBook(Global.getIsbnLts().get(i));
 				}
-
 
 				Global.limpaCampos();
 			}

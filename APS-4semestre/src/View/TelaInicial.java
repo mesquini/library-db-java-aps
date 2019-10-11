@@ -91,6 +91,7 @@ public class TelaInicial extends JFrame {
 		panel.add(btBusca);
 
 		txtBusca = new JTextField();
+		txtBusca.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtBusca.setBounds(362, 6, 366, 23);
 		panel.add(txtBusca);
 		txtBusca.setColumns(10);
@@ -147,7 +148,15 @@ public class TelaInicial extends JFrame {
 		comboBox.setBounds(10, 9, 201, 20);
 		panel.add(comboBox);
 
+		btnDetalhes = new JButton("Detalhe");
+		btnDetalhes.setVisible(false);
+
+		btnDetalhes.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnDetalhes.setBounds(469, 40, 89, 23);
+		panel.add(btnDetalhes);
+
 		table = new JTable(modelo);
+		table.setFont(new Font("Arial", Font.PLAIN, 12));
 		table.setBounds(10, 94, 780, 353);
 		contentPane.add(table);
 
@@ -166,6 +175,7 @@ public class TelaInicial extends JFrame {
 	}
 
 	private static String search = null;
+	private JButton btnDetalhes;
 
 	// FUNÇÃO COM AS AÇÕES DOS BOTÕES
 	public void ActionButton() {
@@ -191,6 +201,8 @@ public class TelaInicial extends JFrame {
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
+				int linhaSelecionada = table.getSelectedRow();
+
 				if (table.getSelectedColumn() >= 0) {
 
 					int resposta = JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja deletar?",
@@ -198,7 +210,6 @@ public class TelaInicial extends JFrame {
 					// verfica se a resposta é verdadeira
 					if (resposta == JOptionPane.YES_OPTION) {
 
-						String linhaSelecionada = table.getValueAt(table.getSelectedRow(), 0).toString();
 						if (search.equals("Autor")) {
 							authorsController.deleteAuthor(linhaSelecionada);
 						} else if (search.equals("Livro")) {
@@ -220,9 +231,9 @@ public class TelaInicial extends JFrame {
 		btnAlterar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				if (table.getSelectedColumn() >= 0) {
+				int linhaSelecionada = table.getSelectedRow();
 
-					String linhaSelecionada = table.getValueAt(table.getSelectedRow(), 0).toString();
+				if (table.getSelectedColumn() >= 0) {
 
 					if (search.equals("Autor")) {
 
@@ -233,7 +244,8 @@ public class TelaInicial extends JFrame {
 						AlteraLivro.main(null);
 						dispose();
 					} else {
-						AlteraEditora.main(null, publishersController.searchID(linhaSelecionada));
+						publishersController.searchID(linhaSelecionada);
+						AlteraEditora.main(null);
 						dispose();
 					}
 
@@ -268,61 +280,71 @@ public class TelaInicial extends JFrame {
 
 			}
 		});
+
+		/* AÇÃO PARA VER DETALHES DO LIVRO */
+		btnDetalhes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				int linhaSelecionada = table.getSelectedRow();
+				
+				if (table.getSelectedColumn() >= 0) {
+					booksController.searchIdBook(linhaSelecionada);
+					Detalhes.main(null);
+				} else
+					JOptionPane.showMessageDialog(null, "Selecione um livro para ver os detalhes", "Aviso",
+							JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
 	}
 
 	// FUNÇÃO PARA CRIAR AS TABELAS, DEPENDENDO DO TIPO QUE O USUARIO ESCOLHER NO
 	// COMBOBOX
 	public void creatTable() {
-
+		btnDetalhes.setVisible(false);
 		if (search == "Autor") {
 
 			cleanTable();
 
 			if (modelo.getColumnCount() == 0) {
 
-				modelo.addColumn("ID");
 				modelo.addColumn("Nome");
 				modelo.addColumn("Sobrenome");
 
-				table.getColumnModel().getColumn(0).setPreferredWidth(10);
+				table.getColumnModel().getColumn(0).setPreferredWidth(100);
 				table.getColumnModel().getColumn(1).setPreferredWidth(100);
-				table.getColumnModel().getColumn(2).setPreferredWidth(100);
 			}
 
 			authorsController.createTableAuthor(modelo, txtBusca.getText());
 
 		} else if (search == "Livro") {
 			cleanTable();
-			
+			btnDetalhes.setVisible(true);
+
 			if (modelo.getColumnCount() == 0) {
-				
-				modelo.addColumn("ISBN");
+
 				modelo.addColumn("Titulo");
 				modelo.addColumn("Autor(es)");
 				modelo.addColumn("Editora(s)");
 				modelo.addColumn("Preço");
-				
-				table.getColumnModel().getColumn(0).setPreferredWidth(10);
-				table.getColumnModel().getColumn(1).setPreferredWidth(120);
+
+				table.getColumnModel().getColumn(0).setPreferredWidth(120);
+				table.getColumnModel().getColumn(1).setPreferredWidth(50);
 				table.getColumnModel().getColumn(2).setPreferredWidth(50);
-				table.getColumnModel().getColumn(3).setPreferredWidth(50);
-				table.getColumnModel().getColumn(4).setPreferredWidth(10);
+				table.getColumnModel().getColumn(3).setPreferredWidth(10);
 			}
 
 			booksAuthorsController.createTableBooks(modelo, txtBusca.getText());
 
 		} else {
 			cleanTable();
-			
+
 			if (modelo.getColumnCount() == 0) {
-				
-				modelo.addColumn("ID");
+
 				modelo.addColumn("Nome");
 				modelo.addColumn("URL");
-				
-				table.getColumnModel().getColumn(0).setPreferredWidth(10);
-				table.getColumnModel().getColumn(1).setPreferredWidth(120);
-				table.getColumnModel().getColumn(2).setPreferredWidth(100);
+
+				table.getColumnModel().getColumn(0).setPreferredWidth(120);
+				table.getColumnModel().getColumn(1).setPreferredWidth(100);
 			}
 
 			publishersController.createTablePublisher(modelo, txtBusca.getText());

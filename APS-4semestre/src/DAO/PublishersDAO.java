@@ -48,7 +48,7 @@ public class PublishersDAO extends DbConnection {
 
 	public ArrayList<Publishers> searchPublisher(String name) {
 
-		final String query = "SELECT * FROM publishers WHERE name like (?)";
+		final String query = "SELECT * FROM publishers WHERE name ilike (?)";
 
 		ArrayList<Publishers> lstPublisher = new ArrayList<Publishers>();
 		Publishers publisher;
@@ -72,6 +72,37 @@ public class PublishersDAO extends DbConnection {
 			FecharConexao();
 
 			return lstPublisher;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			FecharConexao();
+			return null;
+		}
+
+	}
+
+	public Publishers searchPublisherId(int id) {
+
+		final String query = "SELECT * FROM publishers WHERE publisher_id = ?";
+
+		Publishers publisher = new Publishers();
+
+		try (Connection connection = getConexaoMySQL()) {
+
+			PreparedStatement pstm = connection.prepareStatement(query);
+			pstm.setInt(1, id);
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next()) {
+
+				publisher.setPublisher_id(Integer.parseInt(rs.getString(1)));
+				publisher.setName(rs.getString(2));
+				publisher.setUrl(rs.getString(3));
+
+			}
+
+			FecharConexao();
+
+			return publisher;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -155,7 +186,7 @@ public class PublishersDAO extends DbConnection {
 
 			for (int i = 0; i < Global.getIsbnLts().size(); i++) {
 				final String delete2 = "DELETE FROM booksauthors WHERE isbn = ?";
-				
+
 				PreparedStatement pstm = con.prepareStatement(delete2);
 
 				pstm.setString(1, Global.getIsbnLts().get(i));
@@ -166,7 +197,7 @@ public class PublishersDAO extends DbConnection {
 
 			for (int i = 0; i < Global.getIdPublisherLts().size(); i++) {
 				final String delete2 = "DELETE FROM books WHERE publisher_id = ?";
-				
+
 				PreparedStatement pstm = con.prepareStatement(delete2);
 
 				pstm.setInt(1, Global.getIdPublisherLts().get(i));

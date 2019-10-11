@@ -9,7 +9,9 @@ import javax.swing.border.EmptyBorder;
 
 import Controllers.PublishersController;
 import Model.Publishers;
+import UTIL.Global;
 import View.TelaInicial;
+import javafx.scene.text.TextBoundsType;
 
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -33,14 +35,13 @@ public class AlteraEditora extends JFrame {
 	private static Publishers publishers = new Publishers();
 	
 	private JPanel contentPane;
-	private JTextField textName;
-	private JTextField textURL;
+	private static JTextField textName, textURL;
 	private JButton btnVoltar, btnAlterar;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args, Publishers publisher) {
+	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -52,7 +53,7 @@ public class AlteraEditora extends JFrame {
 				}
 			}
 		});
-		publishers = publisher;
+		publishers = Global.getPublisher();
 	}
 
 	/**
@@ -97,14 +98,14 @@ public class AlteraEditora extends JFrame {
 		textName.setBounds(79, 64, 192, 20);
 		panel.add(textName);
 		textName.setColumns(10);
-		textName.setText(publishers.getName());
+		textName.setText(publishers.getName().trim());
 
 		textURL = new JTextField();
 		textURL.setFont(new Font("Arial", Font.PLAIN, 12));
 		textURL.setBounds(79, 89, 192, 20);
 		panel.add(textURL);
 		textURL.setColumns(10);
-		textURL.setText(publishers.getUrl());
+		textURL.setText(publishers.getUrl().trim());
 		
 		JLabel lblAlterarEditora = new JLabel("Alterar Editora");
 		lblAlterarEditora.setFont(new Font("Arial Black", Font.PLAIN, 14));

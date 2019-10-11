@@ -21,13 +21,17 @@ public class PublishersController {
 		publishers = new ArrayList<Publishers>();
 
 		publishers = name != " " ? publishersDAO.searchPublisher(name) : publishersDAO.getAllPublishers();
+		int ObjIdPublisher[] = new int[publishers.size()];
 
 		if (publishers.size() > 0)
-			for (Publishers a : publishers) {
-				modelo.addRow(new Object[] { a.getPublisher_id(), a.getName(), a.getUrl() });
+			for (int i = 0; i < publishers.size(); i++) {
+				modelo.addRow(new Object[] { publishers.get(i).getName(), publishers.get(i).getUrl() });
+				ObjIdPublisher[i] = publishers.get(i).getPublisher_id();
 			}
 		else
-			JOptionPane.showMessageDialog(null, "Não foi possivel localizar essa Editora", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Não foi possivel localizar essa Editora", "Aviso",
+					JOptionPane.INFORMATION_MESSAGE);
+		Global.setObjIdPublisher(ObjIdPublisher);
 	}
 
 	public boolean createPublisher(String name, String url) {
@@ -66,8 +70,8 @@ public class PublishersController {
 		return true;
 	}
 
-	public void deletePublisher(String idPublisher) {
-		int id = Integer.parseInt(idPublisher);
+	public void deletePublisher(int linhaSelecionada) {
+		int id = Global.getObjIdPublisher()[linhaSelecionada];
 
 		boolean rest = booksDAO.searchBook(id);// VERIFICA SE EXISTE ALGUM LIVRO VINCULADO COM A EDITORA
 
@@ -85,16 +89,10 @@ public class PublishersController {
 
 	}
 
-	public Publishers searchID(String idPublisher) {
-		int id = Integer.parseInt(idPublisher);
+	public void searchID(int linhaSelecionada) {
+		int id = Global.getObjIdPublisher()[linhaSelecionada];
 
-		publishers = publishersDAO.getAllPublishers();
-		for (Publishers p : publishers) {
-			if (p.getPublisher_id() == id) {
-				return p;
-			}
-		}
-		return null;
+		Global.setPublisher(publishersDAO.searchPublisherId(id));
 
 	}
 

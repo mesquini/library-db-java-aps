@@ -9,7 +9,9 @@ import DAO.*;
 import Model.Authors;
 import Model.Books;
 import Model.BooksAuthors;
+import Model.Publishers;
 import UTIL.Global;
+import View.Livro.AddLivro;
 
 public class BooksController {
 
@@ -18,9 +20,11 @@ public class BooksController {
 	ArrayList<BooksAuthors> booksAuthors;
 	ArrayList<Books> books;
 	PublishersDAO publishersDAO = new PublishersDAO();
+	AuthorDAO authorDAO = new AuthorDAO();
 
-	public void deleteBook(String idBook) {
-
+	public void deleteBook(int linhaSelecionada) {
+		
+		String idBook = Global.getObjIdBooks()[linhaSelecionada];
 		booksDAO.deleteBook(idBook); // deleta nas duas tabelas na books e booksauthors
 
 	}
@@ -35,10 +39,13 @@ public class BooksController {
 			}
 			JOptionPane.showMessageDialog(null, "Livro criado com sucesso!", "Livro criado",
 					JOptionPane.INFORMATION_MESSAGE);
+			Global.limpaCampos();
+			AddLivro.limpaCampos();
 		}
 	}
 
-	public void searchIdBook(String isbn) {
+	public void searchIdBook(int linhaselecionada) {
+		String isbn = Global.getObjIdBooks()[linhaselecionada];
 
 		books = new ArrayList<Books>();
 		books = booksDAO.getAllBooks();
@@ -67,17 +74,27 @@ public class BooksController {
 				price = a[0] + "," + a[1];
 
 				Global.setPrice(price);
+				Publishers p = publishersDAO.searchPublisherId(b.getPublisher_id());
+				Global.setPublisher(p);
 			}
 		}
 
 		booksAuthors = new ArrayList<BooksAuthors>();
 		booksAuthors = booksAuthorsDAO.getBooksAuthorsForISBN(isbn);
-		int[] authors = new int[booksAuthors.size()];
+		int[] authorsId = new int[booksAuthors.size()];
+		
 		for (int i = 0; i < booksAuthors.size(); i++) {
-			authors[i] = booksAuthors.get(i).getAuthor_id();
+			authorsId[i] = booksAuthors.get(i).getAuthor_id();
 
 		}
-		Global.setObjIdAuthors(authors);
+		
+		String[] authorsName = new String[authorsId.length];
+		
+		for(int i = 0; i < authorsId.length; i++) {
+			Authors a = authorDAO.searchAuthor(authorsId[i]);
+			authorsName[i] = a.getName().trim() + " " + a.getFname().trim();
+		}
+		Global.setObjNameAuthors(authorsName);
 	}
 
 	public boolean validaCampos(String isbn, String title, String price, String seq_no, int[] authors) {
@@ -110,9 +127,9 @@ public class BooksController {
 	}
 
 	public void updateBook(String title, String price) {
-		
-		booksDAO.updateBook(Global.getIsbn(), title, Double.parseDouble(price.replace(",", ".")));		
-		
+
+		booksDAO.updateBook(Global.getIsbn(), title, Double.parseDouble(price.replace(",", ".")));
+
 		JOptionPane.showMessageDialog(null, "Livro alterado com sucesso!", "Livro Alteção",
 				JOptionPane.INFORMATION_MESSAGE);
 

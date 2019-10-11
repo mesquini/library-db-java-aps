@@ -149,9 +149,9 @@ public class AuthorsCheckBox extends JFrame {
 				if (obj.length > 0) {
 					int[] objId = new int[obj.length];
 					for (int i = 0; i < obj.length; i++) {
-						objId[i] = (int) tableAuthors.getValueAt(obj[i], 0);
+						objId[i] = (int) Global.getObjIdAuthors()[obj[i]];
 					}
-					Global.setObjIdAuthors(objId);
+					Global.setObjIdAuthorsSelected(objId);
 
 					if (Global.isTelaAlteracao())
 						AlteraLivro.main(null);
@@ -194,13 +194,11 @@ public class AuthorsCheckBox extends JFrame {
 
 		cleanTable();
 
-		modelo.addColumn("ID");
 		modelo.addColumn("Nome");
 		modelo.addColumn("Sobrenome");
 
-		tableAuthors.getColumnModel().getColumn(0).setPreferredWidth(10);
+		tableAuthors.getColumnModel().getColumn(0).setPreferredWidth(50);
 		tableAuthors.getColumnModel().getColumn(1).setPreferredWidth(50);
-		tableAuthors.getColumnModel().getColumn(2).setPreferredWidth(50);
 
 		authorsController.createTableAuthor(modelo, " ");
 

@@ -38,9 +38,8 @@ public class AddLivro extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textISBN;
-	private JTextField textTitle;
-	private JFormattedTextField textPrice, textVolume;
+	private static JTextField textISBN, textTitle;
+	private static JFormattedTextField textPrice, textVolume;
 	private static JButton btnVoltar, btnCadastrar, btnAuthors;
 	private PublishersController publishersController = new PublishersController();
 	private BooksController booksController = new BooksController();
@@ -204,9 +203,8 @@ public class AddLivro extends JFrame {
 				int editoraId = Global.getObjIdPublisher()[comboBoxPublisher.getSelectedIndex()];
 
 				booksController.createBook(textISBN.getText(), textTitle.getText(), textPrice.getText(),
-						textVolume.getText(), editoraId, Global.getObjIdAuthors());
-				Global.limpaCampos();
-				limpaCampos();
+						textVolume.getText(), editoraId, Global.getObjIdAuthorsSelected());
+				
 
 			}
 		});
@@ -225,7 +223,7 @@ public class AddLivro extends JFrame {
 		});
 	}
 
-	public void limpaCampos() {
+	public static void limpaCampos() {
 		textISBN.setText("");
 		textPrice.setText("");
 		textTitle.setText("");
