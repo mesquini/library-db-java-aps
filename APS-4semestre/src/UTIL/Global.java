@@ -2,7 +2,6 @@ package UTIL;
 
 import java.util.ArrayList;
 
-import Model.BooksAuthors;
 import Model.Publishers;
 
 public final class Global {
@@ -162,7 +161,6 @@ public final class Global {
 		Global.ObjIdPublisher = null;
 		Global.objIdAuthorsSelected = null;
 		Global.ObjNameAuthors = null;
-		Global.ObjIdBooks = null;
 		Global.telaAlteracao = false;
 		Global.publisher = null;
 	}

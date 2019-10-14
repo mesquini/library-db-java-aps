@@ -19,11 +19,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
-import Controllers.AuthorsController;
 import Controllers.BooksController;
 import UTIL.Global;
 import View.TelaInicial;
-import View.Autor.AuthorsCheckBox;
 
 public class AlteraLivro extends JFrame {
 

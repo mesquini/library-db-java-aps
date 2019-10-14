@@ -69,6 +69,7 @@ public class AddLivro extends JFrame {
 	 * 
 	 * @throws ParseException
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public AddLivro() throws ParseException {
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(AddLivro.class.getResource("/Img/books.png")));

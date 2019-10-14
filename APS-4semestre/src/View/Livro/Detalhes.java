@@ -5,10 +5,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import UTIL.Global;
-import View.TelaInicial;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -17,6 +17,7 @@ import javax.swing.JScrollPane;
 
 import java.awt.Toolkit;
 import java.awt.Font;
+
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
@@ -28,7 +29,7 @@ public class Detalhes extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private JPanel contentPane;
 	private JTable table;
 	private DefaultTableModel modelo = new DefaultTableModel() {
@@ -145,13 +146,27 @@ public class Detalhes extends JFrame {
 		btnVoltar.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnVoltar.setBounds(10, 11, 89, 23);
 		contentPane.add(btnVoltar);
-		
+
 		modelo.addColumn("Author(es)");
 		table.getColumnModel().getColumn(0).setPreferredWidth(100);
-		
-		for(int i = 0; i < Global.getObjNameAuthors().length; i++ ) {
-			
-			modelo.addRow(new Object[] {Global.getObjNameAuthors()[i]});
+
+
+		for (int i = 0; i < Global.getObjNameAuthors().length; i++) {
+
+			modelo.addRow(new Object[] { Global.getObjNameAuthors()[i] });
 		}
+		table.getColumnModel().getColumn(0).setCellRenderer(new DefaultTableCellRenderer() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			
+			public void setValue(Object value) {
+				setHorizontalAlignment(JLabel.CENTER);
+				super.setValue(value);
+			}
+			
+		});
 	}
+
 }

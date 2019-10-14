@@ -11,7 +11,6 @@ import Controllers.PublishersController;
 import Model.Publishers;
 import UTIL.Global;
 import View.TelaInicial;
-import javafx.scene.text.TextBoundsType;
 
 import java.awt.Font;
 import java.awt.Toolkit;

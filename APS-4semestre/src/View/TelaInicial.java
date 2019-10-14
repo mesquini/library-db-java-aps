@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import Controllers.AuthorsController;
@@ -133,10 +134,11 @@ public class TelaInicial extends JFrame {
 		panel.add(btnExcluir);
 
 		btnAlterar = new JButton("Alterar");
+		btnAlterar.setHorizontalAlignment(SwingConstants.LEFT);
 
 		btnAlterar.setIcon(new ImageIcon(TelaInicial.class.getResource("/Img/refresh.png")));
 		btnAlterar.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnAlterar.setBounds(568, 40, 89, 23);
+		btnAlterar.setBounds(563, 40, 94, 23);
 		panel.add(btnAlterar);
 
 		comboBox = new JComboBox();
@@ -149,10 +151,12 @@ public class TelaInicial extends JFrame {
 		panel.add(comboBox);
 
 		btnDetalhes = new JButton("Detalhe");
+		btnDetalhes.setHorizontalAlignment(SwingConstants.LEFT);
+		btnDetalhes.setIcon(new ImageIcon(TelaInicial.class.getResource("/Img/seo.png")));
 		btnDetalhes.setVisible(false);
 
 		btnDetalhes.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnDetalhes.setBounds(469, 40, 89, 23);
+		btnDetalhes.setBounds(445, 40, 108, 23);
 		panel.add(btnDetalhes);
 
 		table = new JTable(modelo);
@@ -284,9 +288,9 @@ public class TelaInicial extends JFrame {
 		/* AÇÃO PARA VER DETALHES DO LIVRO */
 		btnDetalhes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				int linhaSelecionada = table.getSelectedRow();
-				
+
 				if (table.getSelectedColumn() >= 0) {
 					booksController.searchIdBook(linhaSelecionada);
 					Detalhes.main(null);
@@ -312,6 +316,9 @@ public class TelaInicial extends JFrame {
 
 				table.getColumnModel().getColumn(0).setPreferredWidth(100);
 				table.getColumnModel().getColumn(1).setPreferredWidth(100);
+
+				centralizaCell(0);
+				centralizaCell(1);
 			}
 
 			authorsController.createTableAuthor(modelo, txtBusca.getText());
@@ -324,13 +331,16 @@ public class TelaInicial extends JFrame {
 
 				modelo.addColumn("Titulo");
 				modelo.addColumn("Autor(es)");
-				modelo.addColumn("Editora(s)");
+				modelo.addColumn("Editora");
 				modelo.addColumn("Preço");
 
 				table.getColumnModel().getColumn(0).setPreferredWidth(120);
 				table.getColumnModel().getColumn(1).setPreferredWidth(50);
 				table.getColumnModel().getColumn(2).setPreferredWidth(50);
 				table.getColumnModel().getColumn(3).setPreferredWidth(10);
+
+				centralizaCell(2);
+				centralizaCell(3);
 			}
 
 			booksAuthorsController.createTableBooks(modelo, txtBusca.getText());
@@ -343,8 +353,8 @@ public class TelaInicial extends JFrame {
 				modelo.addColumn("Nome");
 				modelo.addColumn("URL");
 
-				table.getColumnModel().getColumn(0).setPreferredWidth(120);
-				table.getColumnModel().getColumn(1).setPreferredWidth(100);
+				table.getColumnModel().getColumn(0).setPreferredWidth(50);
+				table.getColumnModel().getColumn(1).setPreferredWidth(50);
 			}
 
 			publishersController.createTablePublisher(modelo, txtBusca.getText());
@@ -356,8 +366,34 @@ public class TelaInicial extends JFrame {
 	public void cleanTable() {
 		while (modelo.getRowCount() > 0 && modelo.getColumnCount() > 0) {
 
-			table.setModel(modelo = new DefaultTableModel());
+			table.setModel(modelo = new DefaultTableModel() {
+				/**
+				* 
+				*/
+				private static final long serialVersionUID = 1L;
+
+				public boolean isCellEditable(int linha, int coluna) {
+					return false;
+				}
+			});
 		}
+	}
+
+	// FUNÇÃO PARA CENTRALIZAR AS CELULAS
+	public void centralizaCell(int column) {
+
+		table.getColumnModel().getColumn(column).setCellRenderer(new DefaultTableCellRenderer() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public void setValue(Object value) {
+				setHorizontalAlignment(JLabel.CENTER);
+				super.setValue(value);
+			}
+
+		});
 	}
 
 }
