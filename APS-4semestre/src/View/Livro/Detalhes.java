@@ -22,6 +22,8 @@ import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Window.Type;
+import java.awt.Dialog.ModalExclusionType;
 
 public class Detalhes extends JFrame {
 
@@ -64,11 +66,10 @@ public class Detalhes extends JFrame {
 	 * Create the frame.
 	 */
 	public Detalhes() {
-		setResizable(false);
 		setTitle("Detalhes");
 		setFont(new Font("Arial", Font.PLAIN, 12));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Detalhes.class.getResource("/Img/books.png")));
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setUndecorated(true);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -132,7 +133,7 @@ public class Detalhes extends JFrame {
 		lbPublisher.setBounds(66, 74, 284, 14);
 		panel.add(lbPublisher);
 
-		JButton btnVoltar = new JButton("Voltar");
+		JButton btnVoltar = new JButton("Fechar");
 
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -142,9 +143,9 @@ public class Detalhes extends JFrame {
 		});
 
 		btnVoltar.setHorizontalAlignment(SwingConstants.LEFT);
-		btnVoltar.setIcon(new ImageIcon(Detalhes.class.getResource("/Img/left-arrow.png")));
+		btnVoltar.setIcon(new ImageIcon(Detalhes.class.getResource("/Img/clear.png")));
 		btnVoltar.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnVoltar.setBounds(10, 11, 89, 23);
+		btnVoltar.setBounds(10, 11, 103, 23);
 		contentPane.add(btnVoltar);
 
 		modelo.addColumn("Author(es)");
