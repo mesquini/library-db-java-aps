@@ -58,11 +58,11 @@ public class AlteraLivro extends JFrame {
 	 * @throws ParseException 
 	 */
 	public AlteraLivro() throws ParseException {
-		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(AddLivro.class.getResource("/Img/books.png")));
 		setTitle("Adicionar um novo Livro");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 409, 279);
+		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

@@ -58,6 +58,7 @@ public class AlteraAutor extends JFrame {
 	public AlteraAutor() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(AlteraAutor.class.getResource("/Img/books.png")));
 		setTitle("Alterar Autor");
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 374, 270);
 		contentPane = new JPanel();

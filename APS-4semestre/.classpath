@@ -2,6 +2,6 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/Mesquini/Desktop/Faculdade/4ºsemestre/JAVA/workspace/library-db-java-aps/postgresql-42.2.8.jar"/>
+	<classpathentry kind="lib" path="D:/1-Projetos/4 - Faculdade/library-db-java-aps/postgresql-42.2.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

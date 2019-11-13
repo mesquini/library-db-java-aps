@@ -56,6 +56,7 @@ public class AddAutor extends JFrame {
 	public AddAutor() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(AddAutor.class.getResource("/Img/books.png")));
 		setTitle("Adicionar um novo Autor");
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 321, 318);
 		contentPane = new JPanel();

@@ -77,7 +77,7 @@ public class Detalhes extends JFrame {
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 45, 414, 205);
+		panel.setBounds(10, 84, 414, 205);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -145,8 +145,14 @@ public class Detalhes extends JFrame {
 		btnVoltar.setHorizontalAlignment(SwingConstants.LEFT);
 		btnVoltar.setIcon(new ImageIcon(Detalhes.class.getResource("/Img/clear.png")));
 		btnVoltar.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnVoltar.setBounds(10, 11, 103, 23);
+		btnVoltar.setBounds(10, 47, 103, 23);
 		contentPane.add(btnVoltar);
+		
+		JLabel lblDetalheDoLivro = new JLabel("Detalhe do livro");
+		lblDetalheDoLivro.setFont(new Font("Arial Black", Font.PLAIN, 14));
+		lblDetalheDoLivro.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDetalheDoLivro.setBounds(10, 22, 414, 14);
+		contentPane.add(lblDetalheDoLivro);
 
 		modelo.addColumn("Author(es)");
 		table.getColumnModel().getColumn(0).setPreferredWidth(100);
@@ -169,5 +175,4 @@ public class Detalhes extends JFrame {
 			
 		});
 	}
-
 }
