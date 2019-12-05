@@ -8,7 +8,8 @@
 - Windonws Builder - is a powerful and easy to use bi-directional Java GUI designer
 
 ## ✋🏻 Pré-requisitos
-- [Eclipse](https://www.eclipse.org/downloads/)
+- [Eclipse](https://www.eclipse.org/)
+- [Postgre](https://www.postgresql.org/)
 
 ## 🔥 Instalação e execução
 
